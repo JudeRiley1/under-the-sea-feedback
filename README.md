@@ -4,7 +4,7 @@ A public, shared playtest journal hosted on GitHub Pages. GitHub Issues stores r
 
 ## Using the journal
 - Open https://juderiley1.github.io/under-the-sea-feedback/
-- Choose **Report a bug** or **Suggest an improvement**.
+- Choose the **Bugs** or **Improvements** tab, then **Add**.
 - Sign in to GitHub. Paste or drag screenshots into the Screenshots field, describe the issue, and submit.
 - Return to the journal and click **Refresh**.
 - Click thumbnails for full-size images. Open a report for details and an **Edit / discuss on GitHub** link.
@@ -25,6 +25,17 @@ If the API is unavailable or rate limited, a clear message links to the canonica
 - index.html, style.css: themed journal
 - app.js, model.js: shared records, filtering, safe rendering, expandable screenshots
 - .github/ISSUE_TEMPLATE: two screenshot-friendly forms
-- assets: compass artwork
+- assets/compass.svg: compass artwork used by the published site
 
 Run parser tests: `node --test model.test.mjs`.
+
+
+## Visual direction
+The site keeps the original teal-and-parchment design, compass artwork, and serif headings. A shorter introduction removes the repeated slogans and calls to action. The feedback board stays light, with a summary above separate Bugs and Improvements tabs.
+
+Each tab has its own Add action; search and status filters persist between tabs. Summary counts cover both tabs: Open includes Open and Reopened, while In progress, Ready to test, and Resolved are separate counts. Not planned reports remain available through the status filter but are not counted as resolved.
+
+Desktop tables become stacked reports on narrow screens. Tabs support arrow keys, Home, and End. Press `/` to focus search. Printing includes both tabs. Counts remain dashes until the first successful sync.
+
+## Local preview
+Run `python -m http.server 4173 --bind 127.0.0.1` in this directory, then open http://127.0.0.1:4173/. Reports still come from the public GitHub repository.
