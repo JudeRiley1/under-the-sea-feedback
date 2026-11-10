@@ -1,0 +1,11 @@
+{
+  "name": "under-the-sea-feedback",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test model.test.mjs tests/priority-status.test.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "29.1.1"
+  }
+}

@@ -25,7 +25,7 @@ Anonymous creation is restricted to the journal browser origin, validated on the
 - feedback.js: anonymous uploads, image compression, draft and edit-key handling.
 - services/feedback-api: separately published Worker, schema migrations and storage tests.
 
-Run `node --test model.test.mjs` for the legacy parser. In the service checkout run `npm test` for upload persistence, validation, authorization, CORS, retry and cleanup checks, and `npm run build` for the Worker build. Database schema changes use `npm run db:generate`; never change applied migrations.
+Run `npm ci` then `npm test` for the legacy parser and popup/status interaction checks. Tests use an isolated DOM and mock network responses, with no live writes. In the service checkout run `npm test` for upload persistence, validation, authorization, CORS, retry and cleanup checks, and `npm run build` for the Worker build. Database schema changes use `npm run db:generate`; never change applied migrations.
 
 A local static preview can read the shared board. Production writes only accept the GitHub Pages origin. Local service tests use an isolated database and object store. The public service was also verified with a temporary upload which was deleted after testing.
 

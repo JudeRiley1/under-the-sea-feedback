@@ -1,0 +1,6 @@
+node_modules/
+.artifacts/
+.env
+.env.*
+# The upload service has its own managed source repository and Git history.
+/services/feedback-api/
