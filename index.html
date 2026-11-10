@@ -56,6 +56,7 @@
     <form id="feedbackForm">
       <label class="field-label" for="feedbackDescription">Description</label>
       <textarea id="feedbackDescription" rows="4" required minlength="3" maxlength="5000" placeholder="What happened? What did you expect?"></textarea>
+      <div class="priority-field"><label class="field-label" for="feedbackPriority">Priority</label><select id="feedbackPriority" name="priority"><option>Low</option><option selected>Medium</option><option>High</option></select></div>
       <div id="screenshotDrop" class="screenshot-drop">
         <label for="screenshotFiles"><span class="upload-icon" aria-hidden="true">＋</span><strong>Add screenshots <span>(optional)</span></strong><span id="screenshotHint">Ctrl+V to paste · or choose a file</span></label>
         <input id="screenshotFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple>

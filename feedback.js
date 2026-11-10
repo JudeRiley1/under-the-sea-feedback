@@ -17,7 +17,7 @@ export function editKey(id){return keys()[id]||''}
 function saveKey(id,key){try{localStorage.setItem(KEY,JSON.stringify({...keys(),[id]:key}));return true}catch{return false}}
 function randomToken(){return [...crypto.getRandomValues(new Uint8Array(32))].map(b=>b.toString(16).padStart(2,'0')).join('')}
 export async function updateStatus(id,status){
- const response=await fetch(API+'/api/reports/'+id,{method:'PATCH',headers:{'Content-Type':'application/json',Authorization:'Bearer '+editKey(id)},body:JSON.stringify({status}),signal:AbortSignal.timeout(20000)});
+ const response=await fetch(API+'/api/reports/'+id,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status}),signal:AbortSignal.timeout(20000)});
  const data=await response.json();if(!response.ok)throw Error(data.error||'Could not update status.');return normalizeReport(data);
 }
 export function validateImage(file){
@@ -66,6 +66,7 @@ export function setupComposer({onSaved,toast}){
  // Keep a cancelled draft, including screenshots, until it is submitted.
  $('#closeComposer').onclick=()=>{if(!busy&&!preparing)dialog.close()};
  $('#feedbackDescription').addEventListener('input',()=>{draftVersion++});
+ $('#feedbackPriority').addEventListener('change',()=>{draftVersion++});
  let lastAttemptVersion=-1;
  form.onsubmit=async e=>{
   e.preventDefault();if(busy||preparing||!form.reportValidity())return;
@@ -73,16 +74,16 @@ export function setupComposer({onSaved,toast}){
   // Retry the same request after a network failure; use a new key if the draft changed.
   if(lastAttemptVersion!==-1&&lastAttemptVersion!==draftVersion){requestId=crypto.randomUUID();token=randomToken()}
   lastAttemptVersion=draftVersion;
-  busy=true;send.disabled=true;send.textContent='Submitting…';$('#closeComposer').disabled=true;filesInput.disabled=true;$('#feedbackDescription').disabled=true;preview();showError('');
+  busy=true;send.disabled=true;send.textContent='Submitting…';$('#closeComposer').disabled=true;filesInput.disabled=true;$('#feedbackDescription').disabled=true;$('#feedbackPriority').disabled=true;preview();showError('');
   try{
-   const body=new FormData();body.set('kind',kind);body.set('description',description);body.set('requestId',requestId);body.set('editToken',token);images.forEach(image=>body.append('images',image.file));
+   const body=new FormData();body.set('kind',kind);body.set('description',description);body.set('priority',$('#feedbackPriority').value);body.set('requestId',requestId);body.set('editToken',token);images.forEach(image=>body.append('images',image.file));
    const response=await fetch(API+'/api/reports',{method:'POST',body,signal:AbortSignal.timeout(45000)});
    const data=await response.json();if(!response.ok)throw Error(data.error||'Could not submit your feedback.');
-   const canEdit=saveKey(data.id,token);onSaved(normalizeReport(data));dialog.close();
+   saveKey(data.id,token);onSaved(normalizeReport(data));dialog.close();
    images.forEach(image=>URL.revokeObjectURL(image.url));images=[];form.reset();requestId=crypto.randomUUID();token=randomToken();lastAttemptVersion=-1;draftVersion=0;
-   toast(canEdit?'Feedback added to the journal.':'Feedback saved. Browser storage is unavailable, so editing here is disabled.');
+   toast('Feedback added to the journal.');
   }catch(e){showError(e.name==='TimeoutError'?'The upload took too long. Your draft is still here—try Submit again.':e.message==='Failed to fetch'?'Could not connect. Your draft is still here—try again.':e.message)}
-  finally{busy=false;send.disabled=false;send.textContent='Submit';$('#closeComposer').disabled=false;filesInput.disabled=false;$('#feedbackDescription').disabled=false;preview()}
+  finally{busy=false;send.disabled=false;send.textContent='Submit';$('#closeComposer').disabled=false;filesInput.disabled=false;$('#feedbackDescription').disabled=false;$('#feedbackPriority').disabled=false;preview()}
  };
  return selectedKind=>{if(kind!==selectedKind){kind=selectedKind;draftVersion++}$('#composerTitle').textContent=kind==='bug'?'Report a bug':'Suggest an improvement';$('#feedbackDescription').placeholder=kind==='bug'?'What happened? What did you expect?':'What would make the game better?';showError('');dialog.showModal();$('#feedbackDescription').focus()};
 }

@@ -4,11 +4,11 @@ A shared playtest journal at https://juderiley1.github.io/under-the-sea-feedback
 
 ## Using the journal
 
-Choose Bugs or Improvements, then Add. Paste a screenshot with Ctrl+V (Cmd+V on Mac), drop an image, or choose a file. Write a description and Submit. No sign-in is required. Reports and screenshots are public.
+Choose Bugs or Improvements, then Add. Paste a screenshot with Ctrl+V (Cmd+V on Mac), drop an image, or choose a file. Write a description, choose Low, Medium or High priority, and Submit. No sign-in is required. Reports and screenshots are public.
 
 The popup accepts up to four PNG, JPG or WebP images and resizes them for upload. Failed submissions retain the draft; retries use an idempotency key to avoid duplicates. Cancelling the popup keeps the current draft until the page is reloaded.
 
-Open a report to view screenshots. The browser used to submit a new report can update its status; an unguessable edit key is stored locally. Clearing browser storage removes this editing ability. Other visitors can read reports but cannot change them. Legacy GitHub issues retain their GitHub editing links.
+Open a report to view screenshots. Click the current status in the board or report details to choose Open, In progress, Ready to test, Done, Reopened or Not planned. Anyone with the journal link can change a status; the board and summary update after saving. Failed saves keep the previous status. Legacy GitHub issues retain their GitHub editing links.
 
 ## Hosting and storage
 
@@ -16,7 +16,7 @@ GitHub Actions publishes the static frontend from main. New reports are stored i
 
 The board merges this service's reports with older GitHub issues. Both sources are paginated. Failed refreshes retain previously loaded reports and display a notice. Status summaries cover both tabs: Open includes Open and Reopened; In progress, Ready to test and Resolved are separate counts.
 
-Anonymous creation is restricted to the journal browser origin, validated on the server, and rate limited to 12 new reports per hour per address and 200 per day overall. Edits require the report's own key; only its hash is stored server-side. Server uploads are limited to four raster images of 4 MB each. No admin credential is shipped in the frontend.
+Anonymous creation is restricted to the journal browser origin, validated on the server, and rate limited to 12 new reports per hour per address and 200 per day overall. Status changes are public and limited to 120 per hour per address and 2,000 per day overall. Deleting a report still requires its own key; only its hash is stored server-side. Server uploads are limited to four raster images of 4 MB each. No admin credential is shipped in the frontend.
 
 ## Development
 
