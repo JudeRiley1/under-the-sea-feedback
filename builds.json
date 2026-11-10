@@ -1,0 +1,20 @@
+{
+    "repo":  "JudeRiley1/under-the-sea-feedback",
+    "builds":  [
+                   {
+                       "version":  "1.4",
+                       "date":  "2026-11-10",
+                       "sizeMB":  115,
+                       "notes":  [
+                                     "New opening: the R.V. Lost Cause, a briefing from June and the sub launch, in daylight. Enter or A moves on, Esc skips.",
+                                     "Finish everything in the Lantern Archipelago, then board the ship to sail to Frostglass Shelf. The old portal is gone.",
+                                     "Clean title cards for discoveries, landmarks and unlocks.",
+                                     "Distant land on the horizon is now clean layered silhouettes.",
+                                     "Stations are named: Lantern station is home, the others are \"\u003cname\u003e station\".",
+                                     "Sub models detailed: Longfin, Needle, Bell, Twinfin. Terrapin rebuilt as a domed sub. Hermit slimmed down. Fishbowl hatch fixed.",
+                                     "New cabin interiors on eight subs: proper pilot seats, control yokes, displays, gauges and pedals.",
+                                     "Bow arms, the bumper and the halo lights no longer run through each other; the bumper opens into two rails when an arm is fitted."
+                                 ]
+                   }
+               ]
+}

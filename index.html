@@ -9,6 +9,7 @@
   <link rel="icon" href="assets/compass.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
   <script src="app.js" type="module"></script>
+  <script src="builds.js" type="module"></script>
 </head>
 <body>
   <a class="skip" href="#journal">Skip to feedback</a>
@@ -19,6 +20,20 @@
   <section class="intro" aria-labelledby="pageTitle">
     <h1 id="pageTitle">Every discovery.<br><em>A better adventure.</em></h1>
     <div class="compass-stamp" aria-hidden="true"><img src="assets/compass.svg" width="76" height="76" alt=""></div>
+  </section>
+  <section class="build-card" id="latestBuild" aria-labelledby="buildTitle" hidden>
+    <div class="build-main">
+      <span class="chapter">LATEST BUILD</span>
+      <h2 id="buildTitle">Under the Sea <span id="buildVersion"></span></h2>
+      <p id="buildMeta" class="build-meta"></p>
+      <a id="buildDownload" class="button primary" href="https://github.com/JudeRiley1/under-the-sea-feedback/releases/latest/download/Under-the-Sea.zip">Download for Windows <span aria-hidden="true">↓</span></a>
+      <p class="build-help">Unzip the whole folder, then open <strong>Under the Sea.exe</strong>. If Windows shows a blue warning, choose <strong>More info</strong>, then <strong>Run anyway</strong>.</p>
+    </div>
+    <div class="build-notes">
+      <h3>What's new in this build</h3>
+      <ul id="buildNotes"></ul>
+      <details id="buildHistory" hidden><summary>Earlier builds</summary><div id="buildOlder"></div></details>
+    </div>
   </section>
   <main class="notebook" id="journal" aria-label="Feedback journal">
     <section class="summary" aria-label="All feedback totals">

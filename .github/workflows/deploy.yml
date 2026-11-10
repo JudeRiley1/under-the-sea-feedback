@@ -22,7 +22,7 @@ jobs:
       - name: Prepare public site
         run: |
           mkdir -p _site/assets
-          cp index.html style.css app.js model.js feedback.js _site/
+          cp index.html style.css app.js model.js feedback.js builds.js builds.json _site/
           cp assets/compass.svg _site/assets/
       - uses: actions/upload-pages-artifact@v3
         with:
