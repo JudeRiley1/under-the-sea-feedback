@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -35,7 +35,7 @@
       <div class="controls">
         <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="search" type="search" placeholder="Search feedback…" aria-label="Search feedback"><kbd aria-hidden="true">/</kbd></label>
         <select id="status" aria-label="Filter by status"><option value="">All statuses</option><option>Open</option><option>In progress</option><option>Ready to test</option><option>Done</option><option>Reopened</option><option>Not planned</option></select>
-        <a id="addReport" class="button primary new-bug" target="_blank" rel="noopener">＋ Add bug</a>
+        <button id="addReport" type="button" class="button primary">＋ Add bug</button>
       </div>
       <div id="notice" role="alert" hidden></div>
       <section id="bugs" class="report-section" role="tabpanel" aria-labelledby="bugTab" tabindex="0">
@@ -46,11 +46,26 @@
       </section>
       <div class="sync-line"><span id="sync" role="status">Connecting…</span><button id="refresh" class="subtle"><span aria-hidden="true">↻</span> Refresh</button></div>
     </div>
-    <footer><span>Public feedback · GitHub sign-in to contribute</span><div><button id="print" class="subtle">Print</button><a href="https://github.com/JudeRiley1/under-the-sea-feedback/issues" target="_blank" rel="noopener">View on GitHub ↗</a></div></footer>
+    <footer><span>Shared feedback · No sign-in needed</span><div><button id="print" class="subtle">Print</button></div></footer>
   </main>
   <dialog id="detail" aria-labelledby="detailTitle"><div class="dialog-top"><span id="detailCode" class="chapter"></span><button class="close" data-close="detail" aria-label="Close report">×</button></div><h2 id="detailTitle"></h2><div id="detailMeta"></div><div id="detailImages" class="detail-images"></div><div id="detailBody"></div><div class="dialog-footer"><a id="editLink" class="button primary" target="_blank" rel="noopener">Edit / discuss on GitHub ↗</a></div></dialog>
   <dialog id="lightbox" aria-label="Game screenshots"><div class="lightbox-bar"><span id="imageCaption">SCREENSHOT</span><button class="close" data-close="lightbox" aria-label="Close screenshot">×</button></div><img id="fullImage" alt="Full-size game screenshot"><div class="lightbox-bottom"><button id="previous" aria-label="Previous screenshot">←</button><span id="imageCount"></span><a id="imageOriginal" target="_blank" rel="noopener">Open original ↗</a><button id="next" aria-label="Next screenshot">→</button></div></dialog>
-  <dialog id="guide" aria-labelledby="guideTitle"><div class="dialog-top"><span class="chapter">FIELD NOTES</span><button class="close" data-close="guide" aria-label="Close instructions">×</button></div><h2 id="guideTitle">Add your feedback</h2><ol><li>Choose <strong>Bugs</strong> or <strong>Improvements</strong>, then select <strong>Add</strong>.</li><li>Sign in to GitHub, describe your feedback, and paste or drag in a screenshot.</li><li>Submit, then return here and select <strong>Refresh</strong>.</li></ol><p>Open a report to update it or join the discussion. Reports and screenshots are public.</p></dialog>
+  <dialog id="composer" aria-labelledby="composerTitle">
+    <div class="dialog-top"><span class="chapter">NEW FEEDBACK</span><button id="closeComposer" type="button" class="close" aria-label="Close feedback form">×</button></div>
+    <h2 id="composerTitle">Report a bug</h2>
+    <form id="feedbackForm">
+      <label class="field-label" for="feedbackDescription">Description</label>
+      <textarea id="feedbackDescription" rows="4" required minlength="3" maxlength="5000" placeholder="What happened? What did you expect?"></textarea>
+      <div id="screenshotDrop" class="screenshot-drop">
+        <label for="screenshotFiles"><span class="upload-icon" aria-hidden="true">＋</span><strong>Add screenshots <span>(optional)</span></strong><span id="screenshotHint">Ctrl+V to paste · or choose a file</span></label>
+        <input id="screenshotFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple>
+      </div>
+      <div id="screenshotPreviews" class="screenshot-previews"></div>
+      <p id="formError" class="form-error" role="alert" hidden></p>
+      <div class="composer-footer"><span>Reports and screenshots are public.</span><button id="sendFeedback" type="submit" class="button primary">Submit</button></div>
+    </form>
+  </dialog>
+  <dialog id="guide" aria-labelledby="guideTitle"><div class="dialog-top"><span class="chapter">FIELD NOTES</span><button class="close" data-close="guide" aria-label="Close instructions">×</button></div><h2 id="guideTitle">Add your feedback</h2><ol><li>Choose <strong>Bugs</strong> or <strong>Improvements</strong>, then select <strong>Add</strong>.</li><li>Paste a screenshot with <strong>Ctrl+V</strong> and write a description.</li><li>Select <strong>Submit</strong>. Your feedback appears in the journal.</li></ol><p>No sign-in needed. Reports and screenshots are public.</p></dialog>
   <div id="toast" role="status"></div>
 </body>
 </html>

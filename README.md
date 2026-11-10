@@ -1,41 +1,32 @@
-# Under The Sea — Field Journal
+# Under The Sea - Field Journal
 
-A public, shared playtest journal hosted on GitHub Pages. GitHub Issues stores reports, screenshots, discussion, and status.
+A shared playtest journal at https://juderiley1.github.io/under-the-sea-feedback/.
 
 ## Using the journal
-- Open https://juderiley1.github.io/under-the-sea-feedback/
-- Choose the **Bugs** or **Improvements** tab, then **Add**.
-- Sign in to GitHub. Paste or drag screenshots into the Screenshots field, describe the issue, and submit.
-- Return to the journal and click **Refresh**.
-- Click thumbnails for full-size images. Open a report for details and an **Edit / discuss on GitHub** link.
 
-**Everyone sees the same reports.** This is public; do not upload private material. No token is embedded in the page. GitHub controls who can edit reports.
+Choose Bugs or Improvements, then Add. Paste a screenshot with Ctrl+V (Cmd+V on Mac), drop an image, or choose a file. Write a description and Submit. No sign-in is required. Reports and screenshots are public.
 
-## Status
-The journal reads the report's Status field (Open, In progress, Ready to test, Reopened).
-Closing an issue marks it Done (or Not planned when that closing reason is selected).
-Maintainers can also apply status labels with the same names.
+The popup accepts up to four PNG, JPG or WebP images and resizes them for upload. Failed submissions retain the draft; retries use an idempotency key to avoid duplicates. Cancelling the popup keeps the current draft until the page is reloaded.
 
-## Hosting
-GitHub Actions deploys the static journal from main. No installation or build step.
-The page fetches public issues from GitHub on load and on Refresh. It paginates without dropping older reports.
-If the API is unavailable or rate limited, a clear message links to the canonical GitHub issue list; previously loaded entries stay visible.
+Open a report to view screenshots. The browser used to submit a new report can update its status; an unguessable edit key is stored locally. Clearing browser storage removes this editing ability. Other visitors can read reports but cannot change them. Legacy GitHub issues retain their GitHub editing links.
 
-## Files
-- index.html, style.css: themed journal
-- app.js, model.js: shared records, filtering, safe rendering, expandable screenshots
-- .github/ISSUE_TEMPLATE: two screenshot-friendly forms
-- assets/compass.svg: compass artwork used by the published site
+## Hosting and storage
 
-Run parser tests: `node --test model.test.mjs`.
+GitHub Actions publishes the static frontend from main. New reports are stored in D1 and screenshots in R2 through the public Sites service at https://under-the-sea-feedback-api.judeyboy12.chatgpt.site. The service has a separate managed source repository; its local checkout is services/feedback-api. It does not need a GitHub token.
 
+The board merges this service's reports with older GitHub issues. Both sources are paginated. Failed refreshes retain previously loaded reports and display a notice. Status summaries cover both tabs: Open includes Open and Reopened; In progress, Ready to test and Resolved are separate counts.
 
-## Visual direction
-The site keeps the original teal-and-parchment design, compass artwork, and serif headings. A shorter introduction removes the repeated slogans and calls to action. The feedback board stays light, with a summary above separate Bugs and Improvements tabs.
+Anonymous creation is restricted to the journal browser origin, validated on the server, and rate limited to 12 new reports per hour per address and 200 per day overall. Edits require the report's own key; only its hash is stored server-side. Server uploads are limited to four raster images of 4 MB each. No admin credential is shipped in the frontend.
 
-Each tab has its own Add action; search and status filters persist between tabs. Summary counts cover both tabs: Open includes Open and Reopened, while In progress, Ready to test, and Resolved are separate counts. Not planned reports remain available through the status filter but are not counted as resolved.
+## Development
 
-Desktop tables become stacked reports on narrow screens. Tabs support arrow keys, Home, and End. Press `/` to focus search. Printing includes both tabs. Counts remain dashes until the first successful sync.
+- index.html and style.css: teal-and-parchment journal and popup.
+- app.js and model.js: board, legacy GitHub parsing, filters and screenshots.
+- feedback.js: anonymous uploads, image compression, draft and edit-key handling.
+- services/feedback-api: separately published Worker, schema migrations and storage tests.
 
-## Local preview
-Run `python -m http.server 4173 --bind 127.0.0.1` in this directory, then open http://127.0.0.1:4173/. Reports still come from the public GitHub repository.
+Run `node --test model.test.mjs` for the legacy parser. In the service checkout run `npm test` for upload persistence, validation, authorization, CORS, retry and cleanup checks, and `npm run build` for the Worker build. Database schema changes use `npm run db:generate`; never change applied migrations.
+
+A local static preview can read the shared board. Production writes only accept the GitHub Pages origin. Local service tests use an isolated database and object store. The public service was also verified with a temporary upload which was deleted after testing.
+
+Tabs support arrow keys, Home and End; `/` focuses search. Printing includes both tabs. Mobile layouts use stacked report cards.
