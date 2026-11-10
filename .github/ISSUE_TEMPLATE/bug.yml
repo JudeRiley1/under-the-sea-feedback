@@ -1,0 +1,63 @@
+name: "Report a bug"
+description: "Something broken, clipping, or not behaving as expected."
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Under The Sea · Field Journal
+        One discovery per report. Add your screenshot first, then describe it.
+        **This is a public report. Screenshots and descriptions will appear on the shared journal.**
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: "Paste an image with Ctrl+V or drag and drop it here. Add more than one if useful."
+      placeholder: "Paste your screenshot here…"
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: "What is broken or clipping? Where does it happen?"
+      placeholder: "Describe your observation…"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Desired result
+      placeholder: "What should happen or change?"
+  - type: input
+    id: build
+    attributes:
+      label: Location / build
+      placeholder: "e.g. Lantern Station · current build"
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Low
+        - Medium
+        - High
+      default: 1
+    validations:
+      required: true
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - Open
+        - In progress
+        - Ready to test
+        - Reopened
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: testing
+    attributes:
+      label: Fix / testing notes
+      placeholder: "Steps to reproduce, changes made, or retest results."
