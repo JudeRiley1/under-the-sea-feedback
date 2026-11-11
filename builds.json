@@ -2,6 +2,21 @@
     "repo":  "JudeRiley1/under-the-sea-feedback",
     "builds":  [
                    {
+                       "version":  "1.5",
+                       "date":  "2026-11-10",
+                       "sizeMB":  115,
+                       "notes":  [
+                                     "New guided first dive: June talks you through the controls one at a time, a first survey, a first animal photo and the trip home to the workshop. Hold Backspace to skip it.",
+                                     "June has a new portrait and an animated speech bubble, with a soft talking sound as her words appear.",
+                                     "The briefing is shorter: the control cards moved into the first dive.",
+                                     "Surveys, landmarks, unlocks, chests and new subs now arrive as small notebook slips on the left, each with its own icon. The large centre text is gone.",
+                                     "The song and artist now show under the map name while the radio is on.",
+                                     "Subs float at the right height on the surface.",
+                                     "The whale bones are rebuilt as a proper skeleton and renamed \"The leviathan arch\".",
+                                     "The up/down speed readout under the depth gauge is removed."
+                                 ]
+                   },
+                   {
                        "version":  "1.4",
                        "date":  "2026-11-10",
                        "sizeMB":  115,
