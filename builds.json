@@ -2,6 +2,18 @@
     "repo":  "JudeRiley1/under-the-sea-feedback",
     "builds":  [
                    {
+                       "version":  "1.6",
+                       "date":  "2026-11-11",
+                       "sizeMB":  122,
+                       "notes":  [
+                                     "The caves now look like natural rock outcrops that match the stone around them, instead of long tubes.",
+                                     "Four new dead-end caves to find in the Lantern Archipelago, each with one mouth and glowing fans at the back.",
+                                     "New sound above the water: gulls in fair weather, wind, rain and thunder in storms, and waves washing on the island shores.",
+                                     "The blue whale now has a call, and the water sounds are a little louder.",
+                                     "Five new calm piano tracks on the radio."
+                                 ]
+                   },
+                   {
                        "version":  "1.5",
                        "date":  "2026-11-10",
                        "sizeMB":  115,
