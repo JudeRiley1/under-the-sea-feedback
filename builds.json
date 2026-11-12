@@ -2,6 +2,26 @@
     "repo":  "JudeRiley1/under-the-sea-feedback",
     "builds":  [
                    {
+                       "version":  "1.8",
+                       "date":  "2026-11-12",
+                       "sizeMB":  122,
+                       "notes":  [
+                                     "Tethering rebuilt: press tether to see snap points in reach, step through them, press again to attach. Cleaner glowing cable with a clamp.",
+                                     "Controller: RB is now the tether (tap to attach or release, hold to reel) and a click of the left stick toggles boost.",
+                                     "New sonar ping: a soft wave that runs along the seabed, glints on chests, surveys, stations, recoveries and animals, and a note of what it found.",
+                                     "Falling stars now leave rare glowing star chests. A star gives a direction and a search circle on the chart, and the chest hums when you are close.",
+                                     "Star chests pay 60 / 120 / 250 sand dollars and are rarer.",
+                                     "Missions: notebook-style notices and details page, details open with the interact key, and jobs beyond your pressure rating are locked.",
+                                     "Shop on a controller: moving over an item previews it, A fits it, X / Y change category, A fits upgrades.",
+                                     "Chart: left stick moves the view, softer view cone, smooth island edges, tidier header and buttons.",
+                                     "Chest, station and scenic stop prompts use the same dial card as recording a survey.",
+                                     "Unlocks are spread across the whole expedition instead of the first few surveys.",
+                                     "Fixed: offshore fish that were blank and frozen, sonar not firing while moving on a controller, kelp growing through station platforms, the Fishbowl\u0027s floor poking through its dome, overlapping prompts near stations.",
+                                     "Steering is inverted while reversing, like a car.",
+                                     "Postcard mode removed. US English spelling throughout."
+                                 ]
+                   },
+                   {
                        "version":  "1.7",
                        "date":  "2026-11-11",
                        "sizeMB":  122,
