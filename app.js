@@ -77,7 +77,6 @@ document.querySelectorAll("dialog:not(#composer)").forEach(d=>d.addEventListener
 $("#previous").onclick=()=>{photo=(photo-1+album.length)%album.length;paintPhoto()};$("#next").onclick=()=>{photo=(photo+1)%album.length;paintPhoto()};
 $("#lightbox").addEventListener("keydown",e=>{if(e.key==="ArrowRight"){$("#next").click();e.preventDefault()}if(e.key==="ArrowLeft"){$("#previous").click();e.preventDefault()}});
 let toastTimer;function toast(message){$("#toast").textContent=message;$("#toast").classList.add("visible");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("#toast").classList.remove("visible"),3500)}
-$("#share").onclick=async()=>{try{await navigator.clipboard.writeText(location.origin+location.pathname);toast("Feedback link copied.")}catch{toast("Copy this page's address to share the board.")}};
 document.addEventListener("keydown",e=>{
  if(e.key!=="/"||e.ctrlKey||e.metaKey||e.altKey||e.target.closest("input,textarea,select,[contenteditable]")||document.querySelector("dialog[open]"))return;
  e.preventDefault();$("#search").focus();
