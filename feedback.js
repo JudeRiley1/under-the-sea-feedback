@@ -1,8 +1,9 @@
-import {DEFAULT_GAME,gameName} from './games.js';
+import {currentProfile,validName} from './profiles.js?v=library-profiles-1';
+import {DEFAULT_GAME,gameName} from './games.js?v=library-profiles-1';
 export const API='https://under-the-sea-feedback-api.judeyboy12.chatgpt.site';
 const KEY='uts-feedback-edit-keys';
 export function normalizeReport(report){
- return {...report,game:report.game||DEFAULT_GAME,source:'journal',author:'a player',fields:{Description:report.description},
+ return {...report,game:report.game||DEFAULT_GAME,source:'journal',author:report.profileName||'Anonymous',fields:{Description:report.description},
   images:(report.images||[]).filter(value=>{try{const url=new URL(value);return url.origin===API&&/^\/images\/[0-9a-f-]{36}$/.test(url.pathname)}catch{return false}})};
 }
 export async function readReports(){
@@ -69,16 +70,17 @@ export function setupComposer({onSaved,toast}){
  $('#closeComposer').onclick=()=>{if(!busy&&!preparing)dialog.close()};
  $('#feedbackDescription').addEventListener('input',()=>{draftVersion++});
  $('#feedbackPriority').addEventListener('change',()=>{draftVersion++});
- let lastAttemptVersion=-1;
+ let lastAttemptVersion=-1,lastAttemptProfile='';
  form.onsubmit=async e=>{
   e.preventDefault();if(busy||preparing||!form.reportValidity())return;
+  const profileName=currentProfile();if(!validName(profileName)){showError('Choose your player name before submitting.');return}
   const description=$('#feedbackDescription').value.trim();if(description.length<3){showError('Add a short description of what happened.');return}
   // Retry the same request after a network failure; use a new key if the draft changed.
-  if(lastAttemptVersion!==-1&&lastAttemptVersion!==draftVersion){requestId=crypto.randomUUID();token=randomToken()}
-  lastAttemptVersion=draftVersion;
+  if(lastAttemptVersion!==-1&&(lastAttemptVersion!==draftVersion||lastAttemptProfile!==profileName)){requestId=crypto.randomUUID();token=randomToken()}
+  lastAttemptVersion=draftVersion;lastAttemptProfile=profileName;
   busy=true;send.disabled=true;send.textContent='Submitting…';$('#closeComposer').disabled=true;filesInput.disabled=true;$('#feedbackDescription').disabled=true;$('#feedbackPriority').disabled=true;preview();showError('');
   try{
-   const body=new FormData();body.set('kind',kind);body.set('game',game);body.set('description',description);body.set('priority',$('#feedbackPriority').value);body.set('requestId',requestId);body.set('editToken',token);images.forEach(image=>body.append('images',image.file));
+   const body=new FormData();body.set('kind',kind);body.set('profileName',profileName);body.set('game',game);body.set('description',description);body.set('priority',$('#feedbackPriority').value);body.set('requestId',requestId);body.set('editToken',token);images.forEach(image=>body.append('images',image.file));
    const response=await fetch(API+'/api/reports',{method:'POST',body,signal:AbortSignal.timeout(45000)});
    const data=await response.json();if(!response.ok)throw Error(data.error||'Could not submit your feedback.');
    saveKey(data.id,token);onSaved(normalizeReport(data));dialog.close();
@@ -87,7 +89,7 @@ export function setupComposer({onSaved,toast}){
   }catch(e){showError(e.name==='TimeoutError'?'The upload took too long. Your draft is still here—try Submit again.':e.message==='Failed to fetch'?'Could not connect. Your draft is still here—try again.':e.message)}
   finally{busy=false;send.disabled=false;send.textContent='Submit';$('#closeComposer').disabled=false;filesInput.disabled=false;$('#feedbackDescription').disabled=false;$('#feedbackPriority').disabled=false;preview()}
  };
- return (selectedKind,selectedGame=DEFAULT_GAME)=>{if(kind!==selectedKind||game!==selectedGame){drafts.set(game+':'+kind,{images,description:$('#feedbackDescription').value,priority:$('#feedbackPriority').value,requestId,token,draftVersion,lastAttemptVersion});kind=selectedKind;game=selectedGame;const draft=drafts.get(game+':'+kind);images=draft?.images||[];$('#feedbackDescription').value=draft?.description||'';$('#feedbackPriority').value=draft?.priority||'Medium';requestId=draft?.requestId||crypto.randomUUID();token=draft?.token||randomToken();draftVersion=draft?.draftVersion||0;lastAttemptVersion=draft?.lastAttemptVersion??-1;preview()}$('#composerGame').textContent=gameName(game);$('#composerTitle').textContent=kind==='bug'?'Report a bug':'Suggest an improvement';$('#feedbackDescription').placeholder=kind==='bug'?'What happened? What did you expect?':'What would make the game better?';showError('');dialog.showModal();$('#feedbackDescription').focus()};
+ return (selectedKind,selectedGame=DEFAULT_GAME)=>{if(kind!==selectedKind||game!==selectedGame){drafts.set(game+':'+kind,{images,description:$('#feedbackDescription').value,priority:$('#feedbackPriority').value,requestId,token,draftVersion,lastAttemptVersion,lastAttemptProfile});kind=selectedKind;game=selectedGame;const draft=drafts.get(game+':'+kind);images=draft?.images||[];$('#feedbackDescription').value=draft?.description||'';$('#feedbackPriority').value=draft?.priority||'Medium';requestId=draft?.requestId||crypto.randomUUID();token=draft?.token||randomToken();draftVersion=draft?.draftVersion||0;lastAttemptVersion=draft?.lastAttemptVersion??-1;lastAttemptProfile=draft?.lastAttemptProfile||'';preview()}$('#composerGame').textContent=gameName(game);$('#composerTitle').textContent=kind==='bug'?'Report a bug':'Suggest an improvement';$('#feedbackDescription').placeholder=kind==='bug'?'What happened? What did you expect?':'What would make the game better?';showError('');dialog.showModal();$('#feedbackDescription').focus()};
 }
 
 let adminToken='';

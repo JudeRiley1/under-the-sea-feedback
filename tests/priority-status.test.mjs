@@ -12,7 +12,7 @@ globalThis.fetch=async(url,options={})=>{
  if(String(url).includes('api.github.com'))return Response.json([]);
  if(String(url).endsWith('/api/admin'))return options.headers.Authorization==='Bearer test-admin'?Response.json({admin:true}):Response.json({error:'Invalid admin key'},{status:403});
  if(options.method==='DELETE'){deleteCalls++;if(failDelete){failDelete=false;return Response.json({error:'Could not delete'},{status:500})}deleted=true;return Response.json({deleted:true})}
- if(options.method==='POST'){posted=options.body;return Response.json({...report,id:53,kind:posted.get('kind'),game:posted.get('game'),description:posted.get('description'),priority:posted.get('priority')},{status:201})}
+ if(options.method==='POST'){posted=options.body;return Response.json({...report,id:53,status:'Open',profileName:posted.get('profileName'),kind:posted.get('kind'),game:posted.get('game'),description:posted.get('description'),priority:posted.get('priority')},{status:201})}
  if(options.method==='PATCH'){
   if(failNext){failNext=false;return Response.json({error:'Try again shortly'},{status:503})}
   report={...report,status:JSON.parse(options.body).status};return Response.json(report);
@@ -30,19 +30,22 @@ assert.equal($('#rowStatus-52').value,'In progress');assert.equal($('#doneCount'
 $('.entry-title').click();assert.ok($('#detail').open);assert.equal($('#detailStatus-52').value,'In progress');
 $('#detailStatus-52').value='Done';change($('#detailStatus-52'));await tick();
 assert.equal($('#detailStatus-52').value,'Done');assert.equal($('#rowStatus-52'),null,'Done leaves default active list');$('#status').value='Done';change($('#status'));assert.equal($('#rowStatus-52').value,'Done');$('#status').value='';change($('#status'));assert.equal($('#rowStatus-52').value,'Done');assert.equal($('#doneCount').textContent,'1');
-$('#detail').close();$('#addReport').click();assert.ok($('#composer').open);
+$('#detail').close();$('#addReport').click();assert.ok($('#profileDialog').open);assert.equal($('#composer').open,false);$('#profileName').value='   ';$('#profileForm').onsubmit({preventDefault(){}});assert.equal($('#profileError').hidden,false);$('#profileName').value='  Alex   Riley  ';$('#profileForm').onsubmit({preventDefault(){}});assert.ok($('#composer').open);assert.equal($('#composerProfileName').textContent,'Alex Riley');assert.equal(localStorage.getItem('playtest-player-name'),'Alex Riley');
 assert.equal($('#feedbackPriority').value,'Medium');$('#feedbackPriority').value='Low';change($('#feedbackPriority'));
 $('#feedbackDescription').value='Low priority feedback submitted through the popup';
 await $('#feedbackForm').onsubmit({preventDefault(){}});
-assert.equal(posted.get('priority'),'Low');assert.equal(posted.get('kind'),'bug');assert.equal($('#composer').open,false);assert.equal($('#feedbackPriority').value,'Medium');
+assert.equal(posted.get('profileName'),'Alex Riley');assert.equal(posted.get('priority'),'Low');assert.equal(posted.get('kind'),'bug');assert.equal($('#composer').open,false);assert.equal($('#feedbackPriority').value,'Medium');
 $('#improvementTab').click();$('#addReport').click();$('#feedbackPriority').value='High';change($('#feedbackPriority'));$('#feedbackDescription').value='High priority improvement';
 await $('#feedbackForm').onsubmit({preventDefault(){}});
 assert.equal(posted.get('priority'),'High');assert.equal(posted.get('kind'),'improvement');assert.equal($('#improvements').hidden,false);
+$('#status').value='';change($('#status'));assert.ok([...$('#profileFilter').options].some(o=>o.textContent==='Alex Riley'));$('#profileFilter').value='alex riley';change($('#profileFilter'));assert.equal($('#rowStatus-52'),null);assert.equal($('#improvementCount').textContent,'1');$('#profileFilter').value='anonymous';change($('#profileFilter'));assert.equal($('#improvementCount').textContent,'0');assert.equal($('#bugCount').textContent,'1');$('#profileFilter').value='';change($('#profileFilter'));
+const remembered=await import('../profiles.js?storage-check');assert.equal(remembered.currentProfile(),'Alex Riley');
 // Additional multi-game and administrator checks.
 $('#game-popcorn-overload').click();assert.equal($('#openCount').textContent,'1');assert.equal($('#bugCount').textContent,'1');assert.equal($('#rowStatus-52'),null);
 $('#bugTab').click();$('#addReport').click();assert.equal($('#composerGame').textContent,'Popcorn Overload');$('#feedbackDescription').value='Popcorn-specific draft';$('#feedbackDescription').dispatchEvent(new dom.window.Event('input'));$('#closeComposer').click();
 $('#game-under-the-sea').click();$('#addReport').click();assert.equal($('#feedbackDescription').value,'');$('#closeComposer').click();
-$('#game-popcorn-overload').click();$('#addReport').click();assert.equal($('#feedbackDescription').value,'Popcorn-specific draft');await $('#feedbackForm').onsubmit({preventDefault(){}});assert.equal(posted.get('game'),'popcorn-overload');
+$('#game-popcorn-overload').click();$('#addReport').click();assert.equal($('#feedbackDescription').value,'Popcorn-specific draft');await $('#feedbackForm').onsubmit({preventDefault(){}});assert.equal(posted.get('game'),'popcorn-overload');assert.equal(posted.get('profileName'),'Alex Riley');assert.ok($('#bugRows').textContent.includes('Alex Riley'));
+$('#playerProfile').click();$('#profileName').value='<img src=x onerror=alert(1)>';$('#profileForm').onsubmit({preventDefault(){}});assert.equal($('#playerProfile').querySelector('img'),null);$('#playerProfile').click();$('#profileName').value='Alex Riley';$('#profileForm').onsubmit({preventDefault(){}});
 assert.equal($('.row-delete'),null,'Deletion hidden before admin sign-in');$('#adminAccess').click();$('#adminKey').value='wrong';await $('#adminForm').onsubmit({preventDefault(){}});assert.equal($('#adminError').hidden,false);assert.equal($('.row-delete'),null);
 $('#adminKey').value='test-admin';await $('#adminForm').onsubmit({preventDefault(){}});assert.equal($('#adminDialog').open,false);assert.ok($('.row-delete'));
 $('.row-delete').click();assert.ok($('#deleteDialog').open);assert.equal(deleteCalls,0,'No delete before confirmation');document.querySelector('[data-close=deleteDialog]').click();assert.equal(deleteCalls,0);

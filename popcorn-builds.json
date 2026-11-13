@@ -1,0 +1,11 @@
+{
+  "builds": [
+    {
+      "version": "2026-11-13",
+      "versionLabel": "Build 2026-11-13",
+      "date": "2026-11-13",
+      "sizeMB": 108,
+      "notes": ["Windows playtest build. The game data is included in the executable; no installation needed."]
+    }
+  ]
+}
