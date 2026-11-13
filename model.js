@@ -20,5 +20,5 @@ export function normalize(issue){
  const states=["Open","In progress","Ready to test","Reopened"];
  let status=issue.state==="closed"?(issue.state_reason==="not_planned"?"Not planned":"Done"):(states.find(x=>labels.includes(x.toLowerCase()))||states.find(x=>x===f.Status)||"Open");
  const priority=["High","Medium","Low"].find(x=>labels.includes("priority: "+x.toLowerCase()))||(["High","Medium","Low"].includes(f.Priority)?f.Priority:"Medium");
- return {id:issue.number,kind,title:issue.title.replace(/^\[(bug|improvement)\]\s*:?\s*/i,""),description:textOnly(f.Description||f.Notes||""),images:extractImages(issue.body||""),status,priority,fields:f,author:issue.user?.login||"crew",url:REPO_URL+"/issues/"+issue.number,updated:issue.updated_at};
+ return {id:issue.number,game:"under-the-sea",kind,title:issue.title.replace(/^\[(bug|improvement)\]\s*:?\s*/i,""),description:textOnly(f.Description||f.Notes||""),images:extractImages(issue.body||""),status,priority,fields:f,author:issue.user?.login||"crew",url:REPO_URL+"/issues/"+issue.number,updated:issue.updated_at};
 }

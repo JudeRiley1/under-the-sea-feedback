@@ -1,13 +1,14 @@
+import {DEFAULT_GAME,gameName} from './games.js';
 export const API='https://under-the-sea-feedback-api.judeyboy12.chatgpt.site';
 const KEY='uts-feedback-edit-keys';
 export function normalizeReport(report){
- return {...report,source:'journal',author:'a player',fields:{Description:report.description},
+ return {...report,game:report.game||DEFAULT_GAME,source:'journal',author:'a player',fields:{Description:report.description},
   images:(report.images||[]).filter(value=>{try{const url=new URL(value);return url.origin===API&&/^\/images\/[0-9a-f-]{36}$/.test(url.pathname)}catch{return false}})};
 }
 export async function readReports(){
  const reports=[];let after=0;
  do{const response=await fetch(API+'/api/reports?after='+after,{cache:'no-store',signal:AbortSignal.timeout(20000)});
-  if(!response.ok)throw Error('The journal could not load new feedback. Please refresh.');
+  if(!response.ok)throw Error('The board could not load new feedback. Please refresh.');
   const data=await response.json();reports.push(...data.reports.map(normalizeReport));after=data.next;
  }while(after);
  return reports;
@@ -38,7 +39,8 @@ async function prepareImage(file){
 }
 export function setupComposer({onSaved,toast}){
  const $=s=>document.querySelector(s),dialog=$('#composer'),form=$('#feedbackForm'),filesInput=$('#screenshotFiles'),drop=$('#screenshotDrop'),send=$('#sendFeedback'),error=$('#formError');
- let images=[],kind='bug',requestId=crypto.randomUUID(),token=randomToken(),busy=false,preparing=0,draftVersion=0;
+ let images=[],kind='bug',game=DEFAULT_GAME,requestId=crypto.randomUUID(),token=randomToken(),busy=false,preparing=0,draftVersion=0;
+ const drafts=new Map();
  const showError=message=>{error.textContent=message;error.hidden=!message};
  function preview(){
   const list=$('#screenshotPreviews');list.replaceChildren();
@@ -76,14 +78,28 @@ export function setupComposer({onSaved,toast}){
   lastAttemptVersion=draftVersion;
   busy=true;send.disabled=true;send.textContent='Submitting…';$('#closeComposer').disabled=true;filesInput.disabled=true;$('#feedbackDescription').disabled=true;$('#feedbackPriority').disabled=true;preview();showError('');
   try{
-   const body=new FormData();body.set('kind',kind);body.set('description',description);body.set('priority',$('#feedbackPriority').value);body.set('requestId',requestId);body.set('editToken',token);images.forEach(image=>body.append('images',image.file));
+   const body=new FormData();body.set('kind',kind);body.set('game',game);body.set('description',description);body.set('priority',$('#feedbackPriority').value);body.set('requestId',requestId);body.set('editToken',token);images.forEach(image=>body.append('images',image.file));
    const response=await fetch(API+'/api/reports',{method:'POST',body,signal:AbortSignal.timeout(45000)});
    const data=await response.json();if(!response.ok)throw Error(data.error||'Could not submit your feedback.');
    saveKey(data.id,token);onSaved(normalizeReport(data));dialog.close();
    images.forEach(image=>URL.revokeObjectURL(image.url));images=[];form.reset();requestId=crypto.randomUUID();token=randomToken();lastAttemptVersion=-1;draftVersion=0;
-   toast('Feedback added to the journal.');
+   drafts.delete(game+':'+kind);toast('Feedback added to '+gameName(game)+'.');
   }catch(e){showError(e.name==='TimeoutError'?'The upload took too long. Your draft is still here—try Submit again.':e.message==='Failed to fetch'?'Could not connect. Your draft is still here—try again.':e.message)}
   finally{busy=false;send.disabled=false;send.textContent='Submit';$('#closeComposer').disabled=false;filesInput.disabled=false;$('#feedbackDescription').disabled=false;$('#feedbackPriority').disabled=false;preview()}
  };
- return selectedKind=>{if(kind!==selectedKind){kind=selectedKind;draftVersion++}$('#composerTitle').textContent=kind==='bug'?'Report a bug':'Suggest an improvement';$('#feedbackDescription').placeholder=kind==='bug'?'What happened? What did you expect?':'What would make the game better?';showError('');dialog.showModal();$('#feedbackDescription').focus()};
+ return (selectedKind,selectedGame=DEFAULT_GAME)=>{if(kind!==selectedKind||game!==selectedGame){drafts.set(game+':'+kind,{images,description:$('#feedbackDescription').value,priority:$('#feedbackPriority').value,requestId,token,draftVersion,lastAttemptVersion});kind=selectedKind;game=selectedGame;const draft=drafts.get(game+':'+kind);images=draft?.images||[];$('#feedbackDescription').value=draft?.description||'';$('#feedbackPriority').value=draft?.priority||'Medium';requestId=draft?.requestId||crypto.randomUUID();token=draft?.token||randomToken();draftVersion=draft?.draftVersion||0;lastAttemptVersion=draft?.lastAttemptVersion??-1;preview()}$('#composerGame').textContent=gameName(game);$('#composerTitle').textContent=kind==='bug'?'Report a bug':'Suggest an improvement';$('#feedbackDescription').placeholder=kind==='bug'?'What happened? What did you expect?':'What would make the game better?';showError('');dialog.showModal();$('#feedbackDescription').focus()};
+}
+
+let adminToken='';
+export const isAdmin=()=>Boolean(adminToken);
+export function signOut(){adminToken=''}
+export async function signIn(token){
+ const response=await fetch(API+'/api/admin',{headers:{Authorization:'Bearer '+token},cache:'no-store',signal:AbortSignal.timeout(20000)});
+ if(!response.ok){const data=await response.json();throw Error(data.error||'Could not sign in.')}
+ adminToken=token;
+}
+export async function deleteReport(id){
+ const response=await fetch(API+'/api/reports/'+id,{method:'DELETE',headers:{Authorization:'Bearer '+adminToken},signal:AbortSignal.timeout(20000)});
+ if(response.status===401||response.status===403)adminToken='';
+ if(!response.ok){const data=await response.json();throw Error(data.error||'Could not delete this report.')}
 }

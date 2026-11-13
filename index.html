@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#1d383d">
-  <meta name="description" content="Under The Sea playtest feedback. Track bugs, improvements, and fixes.">
-  <title>Under The Sea · Field Journal</title>
-  <link rel="icon" href="assets/compass.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#10131b">
+  <meta name="description" content="Download games, share playtest feedback, and track bugs and improvements in one place.">
+  <title>Playtest · Game Review Hub</title>
+  <link rel="icon" href="assets/controller.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
   <script src="app.js" type="module"></script>
   <script src="builds.js" type="module"></script>
@@ -14,33 +14,37 @@
 <body>
   <a class="skip" href="#journal">Skip to feedback</a>
   <header class="masthead">
-    <a class="brand" href="./"><img src="assets/compass.svg" width="42" height="42" alt=""><span>UNDER THE SEA<small>FIELD JOURNAL</small></span></a>
+    <a class="brand" href="./"><img src="assets/controller.svg" width="42" height="42" alt=""><span>PLAYTEST<small>GAME REVIEW HUB</small></span></a>
     <div class="header-actions"><button id="help" class="subtle">How it works</button><button id="share" class="share">Share <span aria-hidden="true">↗</span></button></div>
   </header>
   <section class="intro" aria-labelledby="pageTitle">
-    <h1 id="pageTitle">Every discovery.<br><em>A better adventure.</em></h1>
-    <div class="compass-stamp" aria-hidden="true"><img src="assets/compass.svg" width="76" height="76" alt=""></div>
+    <h1 id="pageTitle">Play. Report.<br><em>Make it better.</em></h1>
+    <p class="intro-copy">A home for every playtest.<br>Grab a build, try it out, and help shape what comes next.</p>
   </section>
-  <section class="build-card" id="latestBuild" aria-labelledby="buildTitle" hidden>
+  <div class="downloads"><section class="build-card" id="latestBuild" aria-labelledby="buildTitle">
     <div class="build-main">
       <span class="chapter">LATEST BUILD</span>
       <h2 id="buildTitle">Under the Sea <span id="buildVersion"></span></h2>
-      <p id="buildMeta" class="build-meta"></p>
+      <p id="buildMeta" class="build-meta">Windows playtest · Download the latest build</p>
       <a id="buildDownload" class="button primary" href="https://github.com/JudeRiley1/under-the-sea-feedback/releases/latest/download/Under-the-Sea.zip">Download for Windows <span aria-hidden="true">↓</span></a>
-      <p class="build-help">Unzip the whole folder, then open <strong>Under the Sea.exe</strong>. If Windows shows a blue warning, choose <strong>More info</strong>, then <strong>Run anyway</strong>.</p>
+      <p class="build-help">Unzip the whole folder, then open <strong>Under the Sea.exe</strong>. </p>
     </div>
-    <div class="build-notes">
+    <details class="build-notes"><summary>Release notes &amp; earlier builds</summary>
       <h3>What's new in this build</h3>
       <ul id="buildNotes"></ul>
       <details id="buildHistory" hidden><summary>Earlier builds</summary><div id="buildOlder"></div></details>
-    </div>
+    </details>
   </section>
-  <main class="notebook" id="journal" aria-label="Feedback journal">
-    <section class="summary" aria-label="All feedback totals">
+  <section class="build-card popcorn-card" aria-labelledby="popcornTitle"><div class="build-main"><span class="chapter">WINDOWS PLAYTEST</span><h2 id="popcornTitle">Popcorn Overload</h2><p class="build-meta">Published November 13, 2026 · 108 MB exe</p><a class="button primary" href="https://github.com/JudeRiley1/under-the-sea-feedback/releases/download/popcorn-2026-11-13/Popcorn-Overload.exe">Download for Windows <span aria-hidden="true">↓</span></a><p class="build-help">Download and open <strong>Popcorn-Overload.exe</strong> to play. No installation needed.</p></div></section></div>
+  <main class="notebook" id="journal" aria-label="Game feedback">
+    <div class="board-heading"><div><span class="chapter">THE FEEDBACK BOARD</span><h2>Small notes. Better games.</h2></div><p>Choose a game to get started.</p></div>
+    <div id="gameTabs" class="game-tabs" role="tablist" aria-label="Game"></div>
+    <div id="gamePanel" role="tabpanel"><h3 id="selectedGameHeading" class="game-heading"></h3>
+    <section class="summary" aria-label="Selected game feedback totals">
       <div class="stat"><span class="stat-label"><i class="open-dot" aria-hidden="true"></i>Open</span><strong id="openCount">—</strong></div>
       <div class="stat"><span class="stat-label"><i class="progress-dot" aria-hidden="true"></i>In progress</span><strong id="progressCount">—</strong></div>
       <div class="stat"><span class="stat-label"><i class="test-dot" aria-hidden="true"></i>Ready to test</span><strong id="testCount">—</strong></div>
-      <div class="stat"><span class="stat-label"><i class="done-dot" aria-hidden="true"></i>Resolved</span><strong id="doneCount">—</strong></div>
+      <div class="stat"><span class="stat-label"><i class="done-dot" aria-hidden="true"></i>Done</span><strong id="doneCount">—</strong></div>
     </section>
     <div class="tabs" role="tablist" aria-label="Feedback type">
       <button id="bugTab" role="tab" aria-selected="true" aria-controls="bugs" tabindex="0">Bugs <span id="bugCount">—</span></button>
@@ -49,7 +53,7 @@
     <div class="register">
       <div class="controls">
         <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="search" type="search" placeholder="Search feedback…" aria-label="Search feedback"><kbd aria-hidden="true">/</kbd></label>
-        <select id="status" aria-label="Filter by status"><option value="">All statuses</option><option>Open</option><option>In progress</option><option>Ready to test</option><option>Done</option><option>Reopened</option><option>Not planned</option></select>
+        <select id="status" aria-label="Filter by status"><option value="active" selected>Active feedback</option><option value="">All statuses</option><option>Open</option><option>In progress</option><option>Ready to test</option><option>Done</option><option>Reopened</option><option>Not planned</option></select>
         <button id="addReport" type="button" class="button primary">＋ Add bug</button>
       </div>
       <div id="notice" role="alert" hidden></div>
@@ -61,13 +65,13 @@
       </section>
       <div class="sync-line"><span id="sync" role="status">Connecting…</span><button id="refresh" class="subtle"><span aria-hidden="true">↻</span> Refresh</button></div>
     </div>
-    <footer><span>Shared feedback · No sign-in needed</span><div><button id="print" class="subtle">Print</button></div></footer>
+    </div><footer><span>Shared feedback · Built together, played together.</span><div><button id="adminAccess" class="subtle">Admin sign in</button><button id="print" class="subtle">Print</button></div></footer>
   </main>
-  <dialog id="detail" aria-labelledby="detailTitle"><div class="dialog-top"><span id="detailCode" class="chapter"></span><button class="close" data-close="detail" aria-label="Close report">×</button></div><h2 id="detailTitle"></h2><div id="detailMeta"></div><div id="detailImages" class="detail-images"></div><div id="detailBody"></div><div class="dialog-footer"><a id="editLink" class="button primary" target="_blank" rel="noopener">Edit / discuss on GitHub ↗</a></div></dialog>
+  <dialog id="detail" aria-labelledby="detailTitle"><div class="dialog-top"><span id="detailCode" class="chapter"></span><button class="close" data-close="detail" aria-label="Close report">×</button></div><h2 id="detailTitle"></h2><div id="detailMeta"></div><div id="detailImages" class="detail-images"></div><div id="detailBody"></div><div class="dialog-footer"><button id="deleteDetail" class="button danger" hidden>Delete report</button><a id="editLink" class="button primary" target="_blank" rel="noopener">Edit / discuss on GitHub ↗</a></div></dialog>
   <dialog id="lightbox" aria-label="Game screenshots"><div class="lightbox-bar"><span id="imageCaption">SCREENSHOT</span><button class="close" data-close="lightbox" aria-label="Close screenshot">×</button></div><img id="fullImage" alt="Full-size game screenshot"><div class="lightbox-bottom"><button id="previous" aria-label="Previous screenshot">←</button><span id="imageCount"></span><a id="imageOriginal" target="_blank" rel="noopener">Open original ↗</a><button id="next" aria-label="Next screenshot">→</button></div></dialog>
   <dialog id="composer" aria-labelledby="composerTitle">
     <div class="dialog-top"><span class="chapter">NEW FEEDBACK</span><button id="closeComposer" type="button" class="close" aria-label="Close feedback form">×</button></div>
-    <h2 id="composerTitle">Report a bug</h2>
+    <h2 id="composerTitle">Report a bug</h2><p id="composerGame" class="composer-game"></p>
     <form id="feedbackForm">
       <label class="field-label" for="feedbackDescription">Description</label>
       <textarea id="feedbackDescription" rows="4" required minlength="3" maxlength="5000" placeholder="What happened? What did you expect?"></textarea>
@@ -81,7 +85,9 @@
       <div class="composer-footer"><span>Reports and screenshots are public.</span><button id="sendFeedback" type="submit" class="button primary">Submit</button></div>
     </form>
   </dialog>
-  <dialog id="guide" aria-labelledby="guideTitle"><div class="dialog-top"><span class="chapter">FIELD NOTES</span><button class="close" data-close="guide" aria-label="Close instructions">×</button></div><h2 id="guideTitle">Add your feedback</h2><ol><li>Choose <strong>Bugs</strong> or <strong>Improvements</strong>, then select <strong>Add</strong>.</li><li>Paste a screenshot with <strong>Ctrl+V</strong> and write a description.</li><li>Select <strong>Submit</strong>. Your feedback appears in the journal.</li></ol><p>No sign-in needed. Reports and screenshots are public.</p></dialog>
+  <dialog id="guide" aria-labelledby="guideTitle"><div class="dialog-top"><span class="chapter">QUICK GUIDE</span><button class="close" data-close="guide" aria-label="Close instructions">×</button></div><h2 id="guideTitle">Add your feedback</h2><ol><li>Select a game tab. Choose <strong>Bugs</strong> or <strong>Improvements</strong>, then select <strong>Add</strong>.</li><li>Paste a screenshot with <strong>Ctrl+V</strong> and write a description.</li><li>Select <strong>Submit</strong>. Your feedback appears on that game’s board.</li></ol><p>Active feedback hides Done and Not planned reports. Use the status filter to see all reports or a specific status. Only the administrator can delete reports.</p></dialog>
+  <dialog id="adminDialog" aria-labelledby="adminTitle"><div class="dialog-top"><span class="chapter">ADMINISTRATION</span><button class="close" data-close="adminDialog" aria-label="Close admin sign in">×</button></div><h2 id="adminTitle">Admin sign in</h2><p>Use your private admin key to manage and delete reports.</p><form id="adminForm"><label class="field-label" for="adminKey">Admin key</label><input id="adminKey" type="password" required autocomplete="current-password"><p id="adminError" class="form-error" role="alert" hidden></p><div class="dialog-footer"><button id="adminSubmit" class="button primary" type="submit">Sign in</button></div></form></dialog>
+  <dialog id="deleteDialog" aria-labelledby="deleteTitle"><div class="dialog-top"><span class="chapter">DELETE FEEDBACK</span><button class="close" data-close="deleteDialog" aria-label="Cancel deletion">×</button></div><h2 id="deleteTitle">Delete this report?</h2><p id="deleteDescription"></p><p>This permanently removes the report and its screenshots for everyone.</p><p id="deleteError" class="form-error" role="alert" hidden></p><div class="dialog-footer"><button class="button" data-close="deleteDialog">Cancel</button><button id="confirmDelete" class="button danger">Delete report</button></div></dialog>
   <div id="toast" role="status"></div>
 </body>
 </html>

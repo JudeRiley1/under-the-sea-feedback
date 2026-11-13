@@ -1,4 +1,4 @@
-name: Deploy Under The Sea journal
+name: Deploy game review hub
 on:
   push:
     branches: [main]
@@ -22,8 +22,8 @@ jobs:
       - name: Prepare public site
         run: |
           mkdir -p _site/assets
-          cp index.html style.css app.js model.js feedback.js builds.js builds.json _site/
-          cp assets/compass.svg _site/assets/
+          cp index.html style.css app.js model.js feedback.js builds.js builds.json games.js _site/
+          cp assets/controller.svg _site/assets/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

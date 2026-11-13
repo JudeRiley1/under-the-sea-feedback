@@ -13,6 +13,8 @@ async function showLatestBuild() {
   const builds = Array.isArray(data.builds) ? data.builds : [];
   if (!builds.length) return;
   const [latest, ...older] = builds;
+  // Pin this game's asset so another game's release cannot change its download.
+  $('buildDownload').href = 'https://github.com/JudeRiley1/under-the-sea-feedback/releases/download/v' + encodeURIComponent(latest.version) + '/Under-the-Sea.zip';
   $('buildVersion').textContent = 'v' + latest.version;
   $('buildMeta').textContent = 'Published ' + when(latest.date) + (latest.sizeMB ? ' · ' + latest.sizeMB + ' MB zip' : '');
   list($('buildNotes'), latest.notes || []);

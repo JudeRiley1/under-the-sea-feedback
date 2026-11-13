@@ -1,32 +1,37 @@
-# Under The Sea - Field Journal
+﻿# Playtest - Game Review Hub
 
-A shared playtest journal at https://juderiley1.github.io/under-the-sea-feedback/.
+A shared game feedback site at https://juderiley1.github.io/under-the-sea-feedback/.
 
-## Using the journal
+Choose **Under the Sea** or **Popcorn Overload**, then **Bugs** or **Improvements**. Use Add to submit a description, priority, and up to four PNG, JPG or WebP screenshots. Images can be pasted, dropped, or selected. Each game and report type keeps a separate draft until reload. Failed submissions retain the draft and retry safely.
 
-Choose Bugs or Improvements, then Add. Paste a screenshot with Ctrl+V (Cmd+V on Mac), drop an image, or choose a file. Write a description, choose Low, Medium or High priority, and Submit. No sign-in is required. Reports and screenshots are public.
+The default **Active feedback** filter hides Done and Not planned reports. Use All statuses or an individual status to review them again. Status changes save immediately; failed saves retain the previous value. Summary counts include all reports for the selected game, while tab counts reflect the current filter/search. Tabs support arrow keys, Home and End. `/` focuses search.
 
-The popup accepts up to four PNG, JPG or WebP images and resizes them for upload. Failed submissions retain the draft; retries use an idempotency key to avoid duplicates. Cancelling the popup keeps the current draft until the page is reloaded.
+## Administrator deletion
 
-Open a report to view screenshots. Click the current status in the board or report details to choose Open, In progress, Ready to test, Done, Reopened or Not planned. Anyone with the journal link can change a status; the board and summary update after saving. Failed saves keep the previous status. Legacy GitHub issues retain their GitHub editing links.
+Only the administrator can delete feedback. Use **Admin sign in** at the bottom of the board and enter the private admin key, then use Delete in a row or report details. A confirmation is required. Deletion removes the report and its screenshots for everyone. Failed deletions retain the report for retry. Sign out or reload to clear the in-memory admin session.
+
+The service verifies a SHA-256 hash against the secret runtime variable `ADMIN_KEY_HASH`. No admin key is shipped with the site, stored in browser storage, or committed to Git. Rotating the key requires updating that Sites runtime secret and redeploying. The initial key is delivered privately to the owner in an ignored local file.
+
+## Downloads
+
+Download cards sit above the board. Under the Sea uses `builds.json`, maintained by its existing publisher, for its version and release notes. Its download is pinned to that version's release so another game's release cannot redirect it. Popcorn Overload links directly to the standalone Windows executable in the `popcorn-2026-11-13` release, which is not marked as the repository's latest release.
 
 ## Hosting and storage
 
-GitHub Actions publishes the static frontend from main. New reports are stored in D1 and screenshots in R2 through the public Sites service at https://under-the-sea-feedback-api.judeyboy12.chatgpt.site. The service has a separate managed source repository; its local checkout is services/feedback-api. It does not need a GitHub token.
+GitHub Actions publishes the static frontend from main. Reports are stored in D1 and screenshots in R2 through the public Sites service at https://under-the-sea-feedback-api.judeyboy12.chatgpt.site. The service has its own managed source repository in `services/feedback-api`.
 
-The board merges this service's reports with older GitHub issues. Both sources are paginated. Failed refreshes retain previously loaded reports and display a notice. Status summaries cover both tabs: Open includes Open and Reopened; In progress, Ready to test and Resolved are separate counts.
+The additive game migration assigns existing feedback to Under the Sea. Older GitHub reports are still read and assigned to Under the Sea; these use GitHub's own management links. New reports persist their game on the server. Both report sources are paginated, and failed refreshes retain loaded reports. A refresh that overlaps a successful mutation cannot restore stale data.
 
-Anonymous creation is restricted to the journal browser origin, validated on the server, and rate limited to 12 new reports per hour per address and 200 per day overall. Status changes are public and limited to 120 per hour per address and 2,000 per day overall. Deleting a report still requires its own key; only its hash is stored server-side. Server uploads are limited to four raster images of 4 MB each. No admin credential is shipped in the frontend.
+Anonymous creation and status changes are restricted to the GitHub Pages browser origin and rate limited. Creation allows 12 per hour per address and 200 per day; status and administrator operations allow 120 per hour per address and 2,000 per day. Deletion checks administrator credentials server-side. Uploads are limited to four raster images of 4 MB each, with client-side compression. Existing per-report edit hashes remain for submission retry compatibility, but do not authorize deletion.
 
 ## Development
 
-- index.html and style.css: teal-and-parchment journal and popup.
-- app.js and model.js: board, legacy GitHub parsing, filters and screenshots.
-- feedback.js: anonymous uploads, image compression, draft and edit-key handling.
-- services/feedback-api: separately published Worker, schema migrations and storage tests.
+- `index.html` / `style.css`: responsive general game hub, downloads, and dialogs.
+- `games.js`: game catalog and status filter behavior.
+- `app.js` / `model.js`: board, legacy GitHub parsing, filters and screenshots.
+- `feedback.js`: submissions, separate drafts, image compression, admin session and deletion.
+- `services/feedback-api`: Worker, additive schema migrations and storage tests.
 
-Run `npm ci` then `npm test` for the legacy parser and popup/status interaction checks. Tests use an isolated DOM and mock network responses, with no live writes. In the service checkout run `npm test` for upload persistence, validation, authorization, CORS, retry and cleanup checks, and `npm run build` for the Worker build. Database schema changes use `npm run db:generate`; never change applied migrations.
+Run `npm ci` then `npm test` for parser and DOM interaction checks. In the service checkout run `npm test` and `npm run build`. Tests use isolated DOM/database/object storage and mock network responses, with no live writes. Generate schema changes with `npm run db:generate`; never change applied migrations. Sites applies hosted migrations during deployment.
 
-A local static preview can read the shared board. Production writes only accept the GitHub Pages origin. Local service tests use an isolated database and object store. The public service was also verified with a temporary upload which was deleted after testing.
-
-Tabs support arrow keys, Home and End; `/` focuses search. Printing includes both tabs. Mobile layouts use stacked report cards.
+Local previews cannot make production writes because the API only allows the GitHub Pages origin. Print shows both feedback types for the selected game using the current filters. Mobile layouts use stacked report cards.
