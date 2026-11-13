@@ -2,6 +2,26 @@
     "repo":  "JudeRiley1/under-the-sea-feedback",
     "builds":  [
                    {
+                       "version":  "1.9",
+                       "date":  "2026-11-13",
+                       "sizeMB":  105,
+                       "notes":  [
+                                     "Smoother play: subs load faster with much lighter models, and fewer hitches while cruising, near stations and on the surface.",
+                                     "Rocks and reefs stream in further away, so less popping into view.",
+                                     "\"Quiet\" graphics is now genuinely lighter for laptops; new Settings \u003e Display \u003e Show performance stats.",
+                                     "Lighting: rock undersides catch light bounced off the sand, and jellies, bubbles and lamp beams no longer wash out against open water.",
+                                     "Wildlife: reworked glow jellies, rays that swim like rays, a heavier great white, and fish schools that move naturally and avoid rocks.",
+                                     "Red flare overhaul: ignition flash, flickering red glow, sparks and a rising smoke plume.",
+                                     "Tether: a real braided rope, a choice of where it leaves the sub, and a simpler picker.",
+                                     "Co-op: subs bump each other with real weight and momentum.",
+                                     "Sonar ping now charts the area around you (70 m at home, 120 m offshore).",
+                                     "Surface: rebuilt lighthouse, cottages, dock, rowboat, palms and pines.",
+                                     "Controls: safari camera moved to C; on a controller, LB + right stick zooms the camera and RT / LT zoom the safari camera; new boost card on the speed dial.",
+                                     "HUD and menus: a new controls card, clearer top-corner text, smoother dials, Settings buttons and a tidier mission log.",
+                                     "Fixed: dark squares and dots under water, the sub getting stuck in shallow water, shells on station decks, Terrapin hull flicker, floating arch legs, and camera jumps in rear view."
+                                 ]
+                   },
+                   {
                        "version":  "1.8",
                        "date":  "2026-11-12",
                        "sizeMB":  122,
