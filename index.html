@@ -7,9 +7,9 @@
   <meta name="description" content="Download games, share playtest feedback, and track bugs and improvements in one place.">
   <title>Playtest · Game Review Hub</title>
   <link rel="icon" href="assets/controller.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=library-profiles-1">
-  <script src="app.js?v=library-profiles-1" type="module"></script>
-  <script src="builds.js?v=library-profiles-1" type="module"></script>
+  <link rel="stylesheet" href="style.css?v=two-statuses-1">
+  <script src="app.js?v=two-statuses-1" type="module"></script>
+  <script src="builds.js?v=two-statuses-1" type="module"></script>
 </head>
 <body>
   <a class="skip" href="#journal">Skip to feedback</a>
@@ -33,9 +33,7 @@
     <div id="gamePanel" role="tabpanel"><h3 id="selectedGameHeading" class="game-heading"></h3>
     <section class="summary" aria-label="Selected game feedback totals">
       <div class="stat"><span class="stat-label"><i class="open-dot" aria-hidden="true"></i>Open</span><strong id="openCount">—</strong></div>
-      <div class="stat"><span class="stat-label"><i class="progress-dot" aria-hidden="true"></i>In progress</span><strong id="progressCount">—</strong></div>
-      <div class="stat"><span class="stat-label"><i class="test-dot" aria-hidden="true"></i>Ready to test</span><strong id="testCount">—</strong></div>
-      <div class="stat"><span class="stat-label"><i class="done-dot" aria-hidden="true"></i>Done</span><strong id="doneCount">—</strong></div>
+      <div class="stat"><span class="stat-label"><i class="done-dot" aria-hidden="true"></i>Complete</span><strong id="doneCount">—</strong></div>
     </section>
     <div class="tabs" role="tablist" aria-label="Feedback type">
       <button id="bugTab" role="tab" aria-selected="true" aria-controls="bugs" tabindex="0">Bugs <span id="bugCount">—</span></button>
@@ -44,7 +42,7 @@
     <div class="register">
       <div class="controls">
         <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="search" type="search" placeholder="Search feedback…" aria-label="Search feedback"><kbd aria-hidden="true">/</kbd></label>
-        <select id="status" aria-label="Filter by status"><option value="active" selected>Active feedback</option><option value="">All statuses</option><option>Open</option><option>In progress</option><option>Ready to test</option><option>Done</option><option>Reopened</option><option>Not planned</option></select>
+        <select id="status" aria-label="Filter by status"><option selected>Open</option><option>Complete</option><option value="">All statuses</option></select>
         <select id="profileFilter" aria-label="Filter by profile"><option value="">All profiles</option></select>
         <button id="addReport" type="button" class="button primary">＋ Add bug</button>
       </div>
@@ -78,7 +76,7 @@
       <div class="composer-footer"><span>Reports and screenshots are public.</span><button id="sendFeedback" type="submit" class="button primary">Submit</button></div>
     </form>
   </dialog>
-  <dialog id="guide" aria-labelledby="guideTitle"><div class="dialog-top"><span class="chapter">QUICK GUIDE</span><button class="close" data-close="guide" aria-label="Close instructions">×</button></div><h2 id="guideTitle">Add your feedback</h2><ol><li>Select a game tab. Choose <strong>Bugs</strong> or <strong>Improvements</strong>, then select <strong>Add</strong>.</li><li>Enter your name when prompted, then paste a screenshot with <strong>Ctrl+V</strong> and write a description.</li><li>Select <strong>Submit</strong>. Your feedback appears on that game’s board.</li></ol><p>Active feedback hides Done and Not planned reports. Use the status filter to see all reports or a specific status. Use All profiles to filter feedback by player. Only the administrator can delete reports.</p></dialog>
+  <dialog id="guide" aria-labelledby="guideTitle"><div class="dialog-top"><span class="chapter">QUICK GUIDE</span><button class="close" data-close="guide" aria-label="Close instructions">×</button></div><h2 id="guideTitle">Add your feedback</h2><ol><li>Select a game tab. Choose <strong>Bugs</strong> or <strong>Improvements</strong>, then select <strong>Add</strong>.</li><li>Enter your name when prompted, then paste a screenshot with <strong>Ctrl+V</strong> and write a description.</li><li>Select <strong>Submit</strong>. Your feedback appears on that game’s board.</li></ol><p>The Open view hides completed reports. Choose Complete or All statuses to see them again. Use All profiles to filter feedback by player. Only the administrator can delete reports.</p></dialog>
   <dialog id="profileDialog" aria-labelledby="profileTitle"><div class="dialog-top"><span class="chapter">PLAYER PROFILE</span><button class="close" data-close="profileDialog" aria-label="Cancel profile">×</button></div><h2 id="profileTitle">What should we call you?</h2><p>Your name appears beside your feedback. We’ll remember it on this browser for next time.</p><form id="profileForm"><label class="field-label" for="profileName">Your name or nickname</label><input id="profileName" type="text" required maxlength="40" autocomplete="nickname" placeholder="e.g. Alex"><p id="profileError" class="form-error" role="alert" hidden></p><div class="dialog-footer"><button id="profileContinue" class="button primary" type="submit">Continue</button></div></form></dialog>
   <dialog id="adminDialog" aria-labelledby="adminTitle"><div class="dialog-top"><span class="chapter">ADMINISTRATION</span><button class="close" data-close="adminDialog" aria-label="Close admin sign in">×</button></div><h2 id="adminTitle">Admin sign in</h2><p>Use your private admin key to manage and delete reports.</p><form id="adminForm"><label class="field-label" for="adminKey">Admin key</label><input id="adminKey" type="password" required autocomplete="current-password"><p id="adminError" class="form-error" role="alert" hidden></p><div class="dialog-footer"><button id="adminSubmit" class="button primary" type="submit">Sign in</button></div></form></dialog>
   <dialog id="deleteDialog" aria-labelledby="deleteTitle"><div class="dialog-top"><span class="chapter">DELETE FEEDBACK</span><button class="close" data-close="deleteDialog" aria-label="Cancel deletion">×</button></div><h2 id="deleteTitle">Delete this report?</h2><p id="deleteDescription"></p><p>This permanently removes the report and its screenshots for everyone.</p><p id="deleteError" class="form-error" role="alert" hidden></p><div class="dialog-footer"><button class="button" data-close="deleteDialog">Cancel</button><button id="confirmDelete" class="button danger">Delete report</button></div></dialog>

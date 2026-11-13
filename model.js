@@ -17,8 +17,7 @@ export function normalize(issue){
  if(issue.pull_request)return null;
  const labels=(issue.labels||[]).map(l=>typeof l==="string"?l:l.name).map(s=>s.toLowerCase()),f=fields(issue.body||"");
  const kind=labels.includes("enhancement")||/^\[improvement\]/i.test(issue.title)?"improvement":"bug";
- const states=["Open","In progress","Ready to test","Reopened"];
- let status=issue.state==="closed"?(issue.state_reason==="not_planned"?"Not planned":"Done"):(states.find(x=>labels.includes(x.toLowerCase()))||states.find(x=>x===f.Status)||"Open");
+ const status=issue.state==="closed"?"Complete":"Open";
  const priority=["High","Medium","Low"].find(x=>labels.includes("priority: "+x.toLowerCase()))||(["High","Medium","Low"].includes(f.Priority)?f.Priority:"Medium");
  return {id:issue.number,game:"under-the-sea",kind,title:issue.title.replace(/^\[(bug|improvement)\]\s*:?\s*/i,""),description:textOnly(f.Description||f.Notes||""),images:extractImages(issue.body||""),status,priority,fields:f,author:issue.user?.login||"crew",url:REPO_URL+"/issues/"+issue.number,updated:issue.updated_at};
 }

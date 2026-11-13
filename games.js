@@ -4,6 +4,7 @@ export const GAMES = [
 ];
 export const DEFAULT_GAME = GAMES[0].id;
 export const gameName = id => GAMES.find(game => game.id === id)?.name || GAMES[0].name;
+export const normalizeStatus=status=>['Complete','Done','Not planned'].includes(status)?'Complete':'Open';
 export function matchesStatus(report, filter) {
-  return filter === 'active' ? !['Done','Not planned'].includes(report.status) : !filter || report.status === filter;
+  return !filter || normalizeStatus(report.status) === filter;
 }

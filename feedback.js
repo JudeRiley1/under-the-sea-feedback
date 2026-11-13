@@ -1,9 +1,9 @@
-import {currentProfile,validName} from './profiles.js?v=library-profiles-1';
-import {DEFAULT_GAME,gameName} from './games.js?v=library-profiles-1';
+import {currentProfile,validName} from './profiles.js?v=two-statuses-1';
+import {DEFAULT_GAME,gameName,normalizeStatus} from './games.js?v=two-statuses-1';
 export const API='https://under-the-sea-feedback-api.judeyboy12.chatgpt.site';
 const KEY='uts-feedback-edit-keys';
 export function normalizeReport(report){
- return {...report,game:report.game||DEFAULT_GAME,source:'journal',author:report.profileName||'Anonymous',fields:{Description:report.description},
+ return {...report,status:normalizeStatus(report.status),game:report.game||DEFAULT_GAME,source:'journal',author:report.profileName||'Anonymous',fields:{Description:report.description},
   images:(report.images||[]).filter(value=>{try{const url=new URL(value);return url.origin===API&&/^\/images\/[0-9a-f-]{36}$/.test(url.pathname)}catch{return false}})};
 }
 export async function readReports(){

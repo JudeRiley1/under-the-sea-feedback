@@ -1,7 +1,7 @@
-import {setupProfile,profileKey,initials} from './profiles.js?v=library-profiles-1';
-import {readReports,setupComposer,updateStatus,deleteReport,isAdmin,signIn,signOut} from "./feedback.js?v=library-profiles-1";
-import{REPO,REPO_URL,normalize,textOnly}from"./model.js?v=library-profiles-1";
-import {GAMES,DEFAULT_GAME,gameName,matchesStatus} from './games.js?v=library-profiles-1';
+import {setupProfile,profileKey,initials} from './profiles.js?v=two-statuses-1';
+import {readReports,setupComposer,updateStatus,deleteReport,isAdmin,signIn,signOut} from "./feedback.js?v=two-statuses-1";
+import{REPO,REPO_URL,normalize,textOnly}from"./model.js?v=two-statuses-1";
+import {GAMES,DEFAULT_GAME,gameName,matchesStatus} from './games.js?v=two-statuses-1';
 const $=s=>document.querySelector(s);
 let entries=[],legacyEntries=[],journalEntries=[],isLoaded=false,loading=false,album=[],photo=0,caption="",activeKind="bug",journalRevision=0,activeGame=DEFAULT_GAME,pendingDelete=null;
 const feedbackTabs=[{tab:"bugTab",panel:"bugs",kind:"bug",label:"＋ Add bug"},{tab:"improvementTab",panel:"improvements",kind:"improvement",label:"＋ Add improvement"}];
@@ -16,14 +16,14 @@ feedbackTabs.forEach((item,index)=>{
 window.addEventListener("hashchange",()=>selectTab(location.hash==="#improvements"?1:0));
 function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
 function code(i){return(i.kind==="bug"?"B":"I")+"-"+(i.source==="journal"?"J":"")+String(i.id).padStart(3,"0")}
-function stateClass(s){return({"In progress":"progress","Ready to test":"testing",Done:"done",Reopened:"reopened"})[s]||""}
+function stateClass(s){return s==="Complete"?"done":""}
 function badge(i){return el("span","badge "+stateClass(i.status),i.status)}
 function statusControl(i,inDetail=false){
  if(i.source!=="journal")return badge(i);
  const select=el('select','badge status-select '+stateClass(i.status));
  select.id=(inDetail?'detailStatus-':'rowStatus-')+i.id;
  select.setAttribute('aria-label','Change status for '+i.title);
- for(const value of ['Open','In progress','Ready to test','Done','Reopened','Not planned']){const option=el('option','',value);option.value=value;option.selected=value===i.status;select.append(option)}
+ for(const value of ['Open','Complete']){const option=el('option','',value);option.value=value;option.selected=value===i.status;select.append(option)}
  select.onchange=async()=>{
   const next=select.value,previous=i.status;
   if(next===previous)return;
@@ -47,7 +47,7 @@ function detail(i){$("#detailCode").textContent=code(i)+" · "+(i.kind==="bug"?"
 function profileBadge(i){const badge=el('span','player-badge');const avatar=el('span','player-avatar',initials(i.author));avatar.setAttribute('aria-hidden','true');badge.append(avatar,el('span','',i.author));return badge}
 function row(i){const tr=el("tr");const id=el("td","code",code(i)),images=el("td"),observation=el("td"),status=el("td"),priority=el("td"),more=el("td");images.append(i.images.length?thumb(i):el("span","no-photo","No screenshot"));const title=el("button","entry-title",i.title);title.onclick=()=>detail(i);observation.append(title,el("p","description",i.description||"Open for details"),profileBadge(i));status.append(statusControl(i));priority.append(el("span","priority "+i.priority.toLowerCase(),i.priority));const open=el("button","row-open","↗");open.setAttribute("aria-label","Open "+i.title);open.onclick=()=>detail(i);more.append(open);if(isAdmin()&&i.source==='journal'){const remove=el('button','row-delete','Delete');remove.setAttribute('aria-label','Delete '+i.title);remove.onclick=()=>askDelete(i);more.append(remove)}tr.append(id,images,observation,status,priority,more);return tr}
 function updateProfileFilter(items){const select=$('#profileFilter'),selected=select.value;const names=new Map(items.map(item=>[profileKey(item),item.author]));const options=[el('option','','All profiles')];options[0].value='';for(const [key,name] of [...names].sort((a,b)=>a[1].localeCompare(b[1]))){const option=el('option','',name);option.value=key;options.push(option)}select.replaceChildren(...options);select.value=names.has(selected)?selected:''}
-function render(){const search=$("#search").value.toLowerCase(),status=$("#status").value;const gameEntries=entries.filter(i=>(i.game||DEFAULT_GAME)===activeGame);updateProfileFilter(gameEntries);const selectedProfile=$('#profileFilter').value;const active=gameEntries.filter(i=>(!selectedProfile||profileKey(i)===selectedProfile)&&matchesStatus(i,status)&&[i.title,i.description,code(i),i.author].join(" ").toLowerCase().includes(search));for(const kind of["bug","improvement"]){const list=active.filter(i=>i.kind===kind),total=active.filter(i=>i.kind===kind).length;$("#"+kind+"Count").textContent=isLoaded?String(total):"\u2014";const rows=$("#"+kind+"Rows");rows.replaceChildren(...list.map(row));if(!list.length){const tr=el("tr"),td=el("td","empty-cell",isLoaded?(search||status?"No matching feedback.":"No reports yet."):loading?"Loading reports…":"Could not load reports. Try Refresh.");td.colSpan=6;tr.append(td);rows.append(tr)}}$("#openCount").textContent=!isLoaded?"\u2014":gameEntries.filter(i=>["Open","Reopened"].includes(i.status)).length;$("#progressCount").textContent=!isLoaded?"\u2014":gameEntries.filter(i=>i.status==="In progress").length;$("#testCount").textContent=!isLoaded?"\u2014":gameEntries.filter(i=>i.status==="Ready to test").length;$("#doneCount").textContent=!isLoaded?"\u2014":gameEntries.filter(i=>i.status==="Done").length}
+function render(){const search=$("#search").value.toLowerCase(),status=$("#status").value;const gameEntries=entries.filter(i=>(i.game||DEFAULT_GAME)===activeGame);updateProfileFilter(gameEntries);const selectedProfile=$('#profileFilter').value;const active=gameEntries.filter(i=>(!selectedProfile||profileKey(i)===selectedProfile)&&matchesStatus(i,status)&&[i.title,i.description,code(i),i.author].join(" ").toLowerCase().includes(search));for(const kind of["bug","improvement"]){const list=active.filter(i=>i.kind===kind),total=active.filter(i=>i.kind===kind).length;$("#"+kind+"Count").textContent=isLoaded?String(total):"\u2014";const rows=$("#"+kind+"Rows");rows.replaceChildren(...list.map(row));if(!list.length){const tr=el("tr"),td=el("td","empty-cell",isLoaded?(search||status?"No matching feedback.":"No reports yet."):loading?"Loading reports…":"Could not load reports. Try Refresh.");td.colSpan=6;tr.append(td);rows.append(tr)}}$("#openCount").textContent=!isLoaded?"\u2014":gameEntries.filter(i=>i.status==="Open").length;$("#doneCount").textContent=!isLoaded?"\u2014":gameEntries.filter(i=>i.status==="Complete").length}
 async function readLegacy(){
  let data=[],page=1;
  while(true){const res=await fetch("https://api.github.com/repos/"+REPO+"/issues?state=all&sort=created&direction=asc&per_page=100&page="+page,{headers:{Accept:"application/vnd.github+json"},cache:"no-cache",signal:AbortSignal.timeout(20000)});if(!res.ok)throw Error("Older GitHub reports could not be refreshed.");const batch=await res.json();data.push(...batch);if(batch.length<100)break;page++}
@@ -66,7 +66,7 @@ async function refresh(){
 }
 const openComposer=setupComposer({toast,onSaved:report=>{
  journalRevision++;journalEntries=journalEntries.filter(item=>item.id!==report.id);journalEntries.push(report);entries=[...legacyEntries,...journalEntries];isLoaded=true;
- $('#search').value='';$('#status').value='active';$('#profileFilter').value='';selectGame(report.game||DEFAULT_GAME);selectTab(report.kind==='bug'?0:1);render();$('#sync').textContent='Feedback saved';
+ $('#search').value='';$('#status').value='Open';$('#profileFilter').value='';selectGame(report.game||DEFAULT_GAME);selectTab(report.kind==='bug'?0:1);render();$('#sync').textContent='Feedback saved';
 }});
 const ensureProfile=setupProfile({toast});
 $('#addReport').onclick=()=>ensureProfile(()=>openComposer(activeKind,activeGame));

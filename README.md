@@ -6,7 +6,7 @@ Choose **Under the Sea** or **Popcorn Overload**, then **Bugs** or **Improvement
 
 Use Add to submit a description, priority, and up to four PNG, JPG or WebP screenshots. Images can be pasted, dropped, or selected. Each game and report type keeps a separate draft until reload. Failed submissions retain the draft and retry safely.
 
-The default **Active feedback** filter hides Done and Not planned reports. Use All statuses or an individual status to review them again. Status changes save immediately; failed saves retain the previous value. The All profiles filter works with status and search in both feedback tabs. Summary counts include all reports for the selected game, while tab counts reflect the current filters/search. Tabs support arrow keys, Home and End. `/` focuses search.
+Reports have two statuses: **Open** and **Complete**. The default Open filter hides completed reports. Choose Complete or All statuses to review them again. Older Done/Not planned reports map to Complete; other older statuses map to Open. Status changes save immediately; failed saves retain the previous value. The All profiles filter works with status and search in both feedback tabs. Summary counts include all reports for the selected game, while tab counts reflect the current filters/search. Tabs support arrow keys, Home and End. `/` focuses search.
 
 ## Administrator deletion
 

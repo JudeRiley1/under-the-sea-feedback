@@ -1,4 +1,4 @@
-import {GAMES} from './games.js?v=library-profiles-1';
+import {GAMES} from './games.js?v=two-statuses-1';
 const REPO='JudeRiley1/under-the-sea-feedback';
 const ROOT='https://github.com/'+REPO;
 const el=(tag,cls,text)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(text!==undefined)node.textContent=text;return node};
