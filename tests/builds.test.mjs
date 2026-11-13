@@ -16,6 +16,30 @@ test('library isolates game assets and merges full release history with manifest
 test('untrusted notes and game names render as text; first build has a clear empty history',()=>{
  const card=renderGame({...GAMES[1],name:'<img onerror=alert(1)>'},[{version:'1',tag:'popcorn-1',date:'2026-11-13',notes:['<script>alert(1)</script>']}]);assert.equal(card.querySelector('img,script'),null);assert.match(card.textContent,/first published build/);
 });
+test('platform selection uses version-pinned assets and updates size and instructions',()=>{
+ const releases=['2026-11-14','2026-11-13'].map(date=>({tag_name:'popcorn-'+date,published_at:date+'T12:00:00Z',assets:[{name:'Popcorn-Overload.exe',size:108*1024*1024},{name:'Popcorn-Overload-Mac.zip',size:120*1024*1024}]}));
+ const builds=mergeBuilds(GAMES[1],{builds:[{version:'2026-11-14',date:'2026-11-14',sizeMB:108}]},releases);
+ const card=renderGame(GAMES[1],builds),select=card.querySelector('.platform-select');
+ assert.match(card.querySelector('.release-download').href,/popcorn-2026-11-14\/Popcorn-Overload.exe$/);
+ select.value='mac';select.dispatchEvent(new dom.window.Event('change'));
+ assert.match(card.querySelector('.release-download').href,/popcorn-2026-11-14\/Popcorn-Overload-Mac.zip$/);
+ assert.match(card.querySelector('.release-identity').textContent,/Mac.*120 MB/);
+ assert.match(card.querySelector('.install-help').textContent,/extract it.*\.app/);
+ const older=card.querySelector('.earlier-build'),oldSelect=older.querySelector('select');oldSelect.value='mac';oldSelect.dispatchEvent(new dom.window.Event('change'));
+ assert.match(older.querySelector('a').href,/popcorn-2026-11-13\/Popcorn-Overload-Mac.zip$/);
+ assert.match(older.querySelector('summary').textContent,/120 MB/);
+});
+test('unpublished platforms have no download link; manifest keeps published Mac builds available offline',()=>{
+ const base={version:'2026-11-13',date:'2026-11-13'};
+ const pending=renderGame(GAMES[1],mergeBuilds(GAMES[1],{builds:[base]},[]));
+ assert.equal(pending.querySelector('option[value=mac]').disabled,true);
+ assert.ok([...pending.querySelectorAll('a')].every(a=>!a.href.endsWith('Mac.zip')));
+ const macOnly={...base,downloads:{mac:{asset:'Popcorn-Overload-Mac.zip',sizeMB:120}}};
+ const available=renderGame(GAMES[1],mergeBuilds(GAMES[1],{builds:[macOnly]},[]));
+ assert.equal(available.querySelector('select').value,'mac');
+ assert.equal(available.querySelector('option[value=windows]').disabled,true);
+ assert.match(available.querySelector('a').href,/Popcorn-Overload-Mac.zip$/);
+});
 test('a release API failure keeps manifest downloads available and offers retry',async()=>{
  document.body.innerHTML='<div id="gameLibrary"></div><p id="libraryNotice"></p><button id="retryBuilds"></button>';
  globalThis.fetch=async url=>{if(String(url).startsWith('https:'))throw Error('offline');return Response.json(url==='builds.json'?manifest:{builds:[{version:'2026-11-13',date:'2026-11-13'}]})};

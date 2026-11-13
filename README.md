@@ -16,11 +16,13 @@ The service verifies a SHA-256 hash against the secret runtime variable `ADMIN_K
 
 ## Downloads
 
-Each game has a compact row showing its name, latest version/build, date, Windows file size, Download, and **Notes & builds**. Expanding the history reveals the latest notes and installation instructions, then earlier releases with their own notes and version-specific downloads. The first release has an explicit empty-history message.
+Each game has a compact row showing its name, latest version/build, date, selected platform file size, Download, and **Notes & builds**. Popcorn Overload has a Windows/Mac selector for the latest and earlier builds; changing it updates the download, size and installation instructions. Platforms without an uploaded asset are disabled. Expanding the history reveals the latest notes and installation instructions, then earlier releases with their own notes and version-specific downloads. The first release has an explicit empty-history message.
 
 The library merges per-game manifests with all pages of public GitHub releases. Asset names and tag prefixes in `games.js` keep games separate. A failed GitHub request falls back to the manifests and offers Retry. Under the Sea's existing publisher continues to maintain `builds.json`; Popcorn uses `popcorn-builds.json`. Its current executable has no semantic version, so it is labeled with its dated build identifier. Publishing another release with a matching game tag prefix and asset name makes it discoverable automatically.
 
 To add a game, add an entry to `GAMES` in `games.js` (id, name, initials, manifest, asset name, tag prefix, installation instructions), create its manifest, include that file in the Pages workflow, and add its id to the API's game allowlist. A manifest lists newest builds first with `version`, `date`, `sizeMB`, and `notes`; optional `tag` and `versionLabel` override the release tag and display text. Links always target a specific release, never the repository-wide latest release.
+
+For multiple platforms, add `platforms` entries with `id`, `label`, `asset`, and `instructions` to the game catalog. A build's optional `downloads` object maps platform IDs to `{asset, sizeMB}` so downloads remain available if GitHub's release API is unavailable. Popcorn release assets use `Popcorn-Overload.exe` and `Popcorn-Overload-Mac.zip`; upload the Mac app inside a ZIP that preserves its executable permissions.
 
 ## Hosting and storage
 
