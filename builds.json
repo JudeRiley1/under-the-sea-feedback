@@ -2,6 +2,23 @@
     "repo":  "JudeRiley1/under-the-sea-feedback",
     "builds":  [
                    {
+                       "version":  "2.0",
+                       "date":  "2026-11-14",
+                       "sizeMB":  106,
+                       "notes":  [
+                                     "The abyssal trench: past the sentinel stones a terraced canyon drops through a thick bank of fog at 350-395 m into a dark world of glowing lanterns, vent chimneys and a brine pool. A 350 m hull is crushed inside the fog.",
+                                     "A new legendary lives below the fog, with its own ambience and calls. Photograph it for the Trench Stalker achievement.",
+                                     "The Abyssal Seal: once every other animal is in the compendium, star chests hold a secret upgrade that gives one fully upgraded sub +100 m. Star chests are rarer.",
+                                     "Octopuses: a new species living in rocky dens near caves around the archipelago. They hunt, swim by jet, hide when you come close and ink when startled.",
+                                     "The octopus\u0027s garden is now a new landmark: a sunken seaplane, nosed into the sand with its cargo spilled.",
+                                     "Kelp rebuilt to look like real giant kelp, with long ruffled blades streaming in the current.",
+                                     "New camera viewfinder: focus brackets, exposure readouts, focal length, a shutter blink and the shot slides in as a print.",
+                                     "The compendium is grouped by rarity: Common, Uncommon, Rare, Legendary.",
+                                     "Smoother, more natural animation for the giant squid and other animals.",
+                                     "Fixes and polish: garage lighting, the Gulper and Hermit subs, the shop and achievements."
+                                 ]
+                   },
+                   {
                        "version":  "1.9",
                        "date":  "2026-11-13",
                        "sizeMB":  105,
