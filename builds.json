@@ -2,6 +2,22 @@
     "repo":  "JudeRiley1/under-the-sea-feedback",
     "builds":  [
                    {
+                       "version":  "2.3",
+                       "date":  "2026-11-19",
+                       "sizeMB":  97,
+                       "notes":  [
+                                     "Camera label now shows a gold NEW SPECIES pill or a grey IN COMPENDIUM pill, with new colors and sizes marked in blue.",
+                                     "Humpbacks breach: now and then bubbles boil up over a whale, then it launches clear of the sea and crashes down.",
+                                     "More dolphins: four pods and four lone dolphins roam the open water, and every so often they come up to porpoise and leap. In co-op everyone sees the same leaps.",
+                                     "Lightning over the sea: brighter, flickering bolts, a white-hot flash where they hit the water, a glittering reflection across the waves, and spray, steam and foam at the strike.",
+                                     "The Robo-Pet stands on a moulded pad that fits the hull, instead of a flat plate that clipped through curved roofs.",
+                                     "The Robo-Pet moved into the Arm page of the workshop (its own tab is gone) and still rides on the roof next to your arm. It is no longer sold: photograph ten species to earn it. Click it again to take it off.",
+                                     "Crewmates\u0027 glass cabins no longer show the sea surface inside them in co-op.",
+                                     "Smoother frame rate at the surface: the water reflection no longer draws the seabed it can never show.",
+                                     "The studio is now RileyGames. Your save, settings and key bindings move across on the first launch."
+                                 ]
+                   },
+                   {
                        "version":  "2.2",
                        "date":  "2026-11-18",
                        "sizeMB":  97,
