@@ -2,6 +2,22 @@
     "repo":  "JudeRiley1/under-the-sea-feedback",
     "builds":  [
                    {
+                       "version":  "2.2",
+                       "date":  "2026-11-18",
+                       "sizeMB":  97,
+                       "notes":  [
+                                     "Garage / workshop key is now G (was U). A saved U binding moves to G automatically.",
+                                     "Arms now mount on a moulded shoulder pod low on the starboard side instead of the bow bar, angled out so you can see them while driving. The sample-jar crate still rides on the bow.",
+                                     "Sediment scoop rebuilt on the jointed arm: toothed bucket with a sieve, ribs and a clear sample canister. It now tips in, digs and curls up.",
+                                     "New: Robo-Pet (Garage \u003e Robo-Pet, 30 Sand Dollars). A camera on a jointed neck that rides on the roof, looks where you steer, watches nearby animals, perks up after photos and lies down when you stop.",
+                                     "Every sub now has one strength, shown on its fleet register card: Minnow faster recover, Twinfin less push from currents, Longfin faster rise and dive, Barnacle less collision damage, Fishbowl sees 20% farther in murky water, Terrapin longer photo range, Old Bathy slower battery drain, Gulper faster turning, Needle +10% cruise, Bell longer lamps, Hermit longer tether and no tow drag.",
+                                     "Fleet register card: the strength replaces the name, the piloting status moved to the bottom, and the Recovery leads button is gone.",
+                                     "The Twinfin has a new look: long slim pods with a swept fin on each tail, a round headlamp on each pod tip, a low jet canopy and side windows set into the hull.",
+                                     "The Barnacle no longer has the flat equipment shelf under its bow.",
+                                     "The Fishbowl\u0027s headlamps now sit on the tips of its side pods, lined up with the pods like the Twinfin\u0027s."
+                                 ]
+                   },
+                   {
                        "version":  "2.1",
                        "date":  "2026-11-18",
                        "sizeMB":  97,
