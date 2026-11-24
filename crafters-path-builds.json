@@ -1,0 +1,21 @@
+{
+  "builds": [
+    {
+      "version": "1",
+      "versionLabel": "V1",
+      "date": "2026-11-24",
+      "sizeMB": 154,
+      "downloads": {
+        "windows": {"asset": "Crafters-Path.zip", "sizeMB": 154}
+      },
+      "notes": [
+        "First playtest build of Crafter's Path for Windows.",
+        "All four chapters: AerCrafting, HydroCrafting, TerraCrafting and EmberCrafting, with a Master duel in each land.",
+        "Story ending with the duel at the Summit.",
+        "New Journal menu with a Map tab.",
+        "Works with a controller or keyboard.",
+        "Unzip the whole folder and keep the .pck files next to Crafter's Path.exe."
+      ]
+    }
+  ]
+}

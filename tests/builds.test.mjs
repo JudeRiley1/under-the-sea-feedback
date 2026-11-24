@@ -43,6 +43,17 @@ test('unpublished platforms have no download link; manifest keeps published Mac 
 test('a release API failure keeps manifest downloads available and offers retry',async()=>{
  document.body.innerHTML='<div id="gameLibrary"></div><p id="libraryNotice"></p><button id="retryBuilds"></button>';
  globalThis.fetch=async url=>{if(String(url).startsWith('https:'))throw Error('offline');return Response.json(url==='builds.json'?manifest:{builds:[{version:'2026-11-13',date:'2026-11-13'}]})};
- await loadLibrary();assert.equal(document.querySelectorAll('.release-download').length,2);assert.equal(document.getElementById('retryBuilds').hidden,false);
- globalThis.fetch=async()=>{throw Error('offline')};await loadLibrary();assert.equal(document.querySelectorAll('.game-release').length,2);assert.equal(document.querySelectorAll('.release-download').length,0);assert.match(document.getElementById('libraryNotice').textContent,/could not load/);
+ await loadLibrary();assert.equal(document.querySelectorAll('.release-download').length,GAMES.length);assert.equal(document.getElementById('retryBuilds').hidden,false);
+ globalThis.fetch=async()=>{throw Error('offline')};await loadLibrary();assert.equal(document.querySelectorAll('.game-release').length,GAMES.length);assert.equal(document.querySelectorAll('.release-download').length,0);assert.match(document.getElementById('libraryNotice').textContent,/could not load/);
+});
+test("Crafter's Path V1 stays separate from other games and links its pinned release",()=>{
+ const crafters=GAMES.find(game=>game.id==='crafters-path');
+ const own=JSON.parse(readFileSync(new URL('../crafters-path-builds.json',import.meta.url),'utf8'));
+ const releases=[{tag_name:'crafters-path-v1',published_at:'2026-11-24T23:00:00Z',body:'V1 notes',assets:[{name:'Crafters-Path.zip',size:300*1024*1024}]},{tag_name:'v2.5',published_at:'2026-11-23T12:00:00Z',assets:[{name:'Under-the-Sea.zip',size:1000000}]}];
+ const builds=mergeBuilds(crafters,own,releases);
+ assert.equal(builds.length,1);assert.equal(builds[0].versionLabel,'V1');
+ assert.ok(!mergeBuilds(GAMES[0],null,releases).some(b=>b.tag.startsWith('crafters')));
+ const card=renderGame(crafters,builds);
+ assert.match(card.querySelector('.release-download').href,/crafters-path-v1\/Crafters-Path.zip$/);
+ assert.match(card.textContent,/V1/);
 });

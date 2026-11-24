@@ -2,7 +2,7 @@
 
 A shared game feedback site at https://juderiley1.github.io/under-the-sea-feedback/.
 
-Choose **Under the Sea** or **Popcorn Overload**, then **Bugs** or **Improvements**. On your first Add, enter your name or nickname. Your profile is remembered on this browser and displayed beside your reports with an initials badge. Use Your profile or Change in the submission form to edit your name for future reports. These are display-name profiles, not authenticated accounts; names that differ only in case or spacing share a filter.
+Choose **Under the Sea**, **Popcorn Overload** or **Crafter's Path**, then **Bugs** or **Improvements**. On your first Add, enter your name or nickname. Your profile is remembered on this browser and displayed beside your reports with an initials badge. Use Your profile or Change in the submission form to edit your name for future reports. These are display-name profiles, not authenticated accounts; names that differ only in case or spacing share a filter.
 
 Use Add to submit a description, priority, and up to four PNG, JPG or WebP screenshots. Images can be pasted, dropped, or selected. Each game and report type keeps a separate draft until reload. Failed submissions retain the draft and retry safely.
 
@@ -22,7 +22,7 @@ The library merges per-game manifests with all pages of public GitHub releases. 
 
 To add a game, add an entry to `GAMES` in `games.js` (id, name, initials, manifest, asset name, tag prefix, installation instructions), create its manifest, include that file in the Pages workflow, and add its id to the API's game allowlist. A manifest lists newest builds first with `version`, `date`, `sizeMB`, and `notes`; optional `tag` and `versionLabel` override the release tag and display text. Links always target a specific release, never the repository-wide latest release.
 
-For multiple platforms, add `platforms` entries with `id`, `label`, `asset`, and `instructions` to the game catalog. A build's optional `downloads` object maps platform IDs to `{asset, sizeMB}` so downloads remain available if GitHub's release API is unavailable. Popcorn release assets use `Popcorn-Overload.exe` and `Popcorn-Overload-Mac.zip`; upload the Mac app inside a ZIP that preserves its executable permissions.
+For multiple platforms, add `platforms` entries with `id`, `label`, `asset`, and `instructions` to the game catalog. A build's optional `downloads` object maps platform IDs to `{asset, sizeMB}` so downloads remain available if GitHub's release API is unavailable. Crafter's Path uses `crafters-path-builds.json`, tag prefix `crafters-path-v` (V1 is tag `crafters-path-v1`), and one Windows asset, `Crafters-Path.zip`, which holds the exe and its .pck files. Popcorn release assets use `Popcorn-Overload.exe` and `Popcorn-Overload-Mac.zip`; upload the Mac app inside a ZIP that preserves its executable permissions.
 
 ## Hosting and storage
 
