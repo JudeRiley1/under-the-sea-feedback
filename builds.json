@@ -2,6 +2,27 @@
     "repo":  "JudeRiley1/under-the-sea-feedback",
     "builds":  [
                    {
+                       "version":  "2.5",
+                       "date":  "2026-11-23",
+                       "sizeMB":  97,
+                       "downloads":  {
+                                         "windows":  {
+                                                         "asset":  "Under-the-Sea.zip",
+                                                         "sizeMB":  97
+                                                     },
+                                         "mac":  {
+                                                     "asset":  "Under-the-Sea-Mac.zip",
+                                                     "sizeMB":  105
+                                                 }
+                                     },
+                       "notes":  [
+                                     "Garage: moving through the hulls is smooth now. The hull you stop on appears after a moment, and hulls you have already looked at come up straight away.",
+                                     "Garage: the shop pictures (upgrades, paint, wraps, loadout tools) are drawn in the background, so opening a page for the first time no longer freezes the game.",
+                                     "Co-op: each invite now shows once. After you press Invite, the button reads Sent for 15 seconds.",
+                                     "Mac: Steam starts with the game, so a friend\u0027s invite arrives without opening Dive with friends first."
+                                 ]
+                   },
+                   {
                        "version":  "2.4",
                        "date":  "2026-11-22",
                        "sizeMB":  97,
