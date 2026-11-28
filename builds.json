@@ -2,6 +2,34 @@
     "repo":  "JudeRiley1/under-the-sea-feedback",
     "builds":  [
                    {
+                       "version":  "2.6",
+                       "date":  "2026-11-28",
+                       "sizeMB":  97,
+                       "downloads":  {
+                                         "windows":  {
+                                                         "asset":  "Under-the-Sea.zip",
+                                                         "sizeMB":  97
+                                                     },
+                                         "mac":  {
+                                                     "asset":  "Under-the-Sea-Mac.zip",
+                                                     "sizeMB":  105
+                                                 }
+                                     },
+                       "notes":  [
+                                     "New ending: a lost city lies below the trench fog. Wake its five lamps and the whole city lights up, with a great pearl on the temple and a beam of light rising through the fog.",
+                                     "After the city wakes, rise back through the fog: June congratulates you, then the credits roll with your own photos scattered beside them.",
+                                     "The trench creature is gone. Charting the archipelago now opens the last chapter: \"Something below the fog\" and the Abyssal Seal.",
+                                     "The Frostglass Shelf is held back for a future update. Saves that were in Frostglass start at Lantern station.",
+                                     "The Tagging sled and the Lost Bathyscaphe missions moved to the Lantern Archipelago (they still give the Terrapin and the Bell).",
+                                     "The Needle (250) and the Gulper (200) are now for sale at any garage.",
+                                     "Achievements are the Lantern set plus a new one for the lost city. The Lantern halo lights unlock when the city wakes.",
+                                     "The great white has a new mouth: a downturned jaw, a little open, with broad triangular teeth, in place of the old grin.",
+                                     "Cut-scenes now fade in and out.",
+                                     "Sea trials: opening the workshop beside the Lost Cause no longer moves you to Lantern station. You stay in the harbor.",
+                                     "Sea trials: the workshop is for looking only. Buying, fitting, switching subs and packing tools start after the trials."
+                                 ]
+                   },
+                   {
                        "version":  "2.5",
                        "date":  "2026-11-23",
                        "sizeMB":  97,
